@@ -1,6 +1,15 @@
 body {
-    margin: 10px;
+    margin: 0px;
     background-color: #ADB2D3;
     font-family: Arial, Helvetica, sans-serif;
     color: #594F3B;
   }
+
+div.content {
+    margin: 100px;
+}
+
+div.footer {
+    background-color: #FFFFFF;
+    text-align: right;
+}
