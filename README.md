@@ -10,7 +10,9 @@ At the start, there is type of role in the application, i.e. a normal user.
 
 ## User Interface Draft
 
-First draft of the user interface will be added below.
+First draft of the user interface is below.
+
+![Design document picture](./documentation/design_doc_pic.jpg) 
 
 ## Basic Version Functionalities
 
@@ -25,7 +27,14 @@ First draft of the user interface will be added below.
 * User can re-order the tips they have added
 * User can modify the tips they have added
 
-See the project's backlog from Google Docs (link to be added).
+See the product and sprint backlog in [Google Docs](https://docs.google.com/spreadsheets/d/1plecnq6NQp5lWElzSjdFOGPEqjY1rucBk0Hdp8Kfcho/edit?usp=sharing).
+
+## Definition of Done
+
+Definition of done the user stories in general is the following:
+* Tasks are completed
+* Tests are done and passed
+* Updated and working application is running on Heroku
 
 ## Installation and Running 
 
@@ -50,5 +59,7 @@ Alternatively:
 poetry shell
 flask run
 ```
+
+The application's continuous integration is run through GitHub Actions (link to be added).
 
 The application will be available in Heroku (link to be added).
