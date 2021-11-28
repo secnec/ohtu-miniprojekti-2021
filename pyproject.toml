@@ -7,6 +7,9 @@ authors = ["Your Name <you@example.com>"]
 [tool.poetry.dependencies]
 python = "^3.9"
 Flask = "^2.0.2"
+Flask-SQLAlchemy = "^2.5.1"
+psycopg2-binary = "^2.9.2"
+python-dotenv = "^0.19.2"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.12.1"
