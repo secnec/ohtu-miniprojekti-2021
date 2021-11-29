@@ -20,6 +20,10 @@ jobs:
         run: pip install poetry
       - name: Install dependencies
         run: poetry install
-      - name: Run tests
-        run: poetry run pytest
+      - uses: akhileshns/heroku-deploy@v3.0.0
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "Library of Reading Tips"
+          heroku_email: "antti.kosonen@protonmail.com"
+          usedocker: true
 
