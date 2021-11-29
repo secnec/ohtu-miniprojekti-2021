@@ -25,7 +25,7 @@ jobs:
         with:
           docker_heroku_process_type: web
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: library-of-reading-tips
+          heroku_app_name:  ohtu-miniprojekti-2021
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           usedocker: true
 
