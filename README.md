@@ -43,7 +43,6 @@ To install the application you need a working Python and Poetry installation.
 ```bash
 git clone https://github.com/secnec/ohtu-miniprojekti-2021.git
 cd ohtu-miniprojekti-2021
-poetry init
 poetry install
 ```
 
