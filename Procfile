@@ -1,1 +1,1 @@
-poetry run flask run
+flask run
