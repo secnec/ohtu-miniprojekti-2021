@@ -55,8 +55,18 @@ def register():
 
 @app.route("/signin", methods=["get", "post"])
 def signin():
-    if request.method == "GET":
-        return render_template("signin.html")
+    alert = None
 
     if request.method == "POST":
-        pass
+        username = request.form.get("username")
+        password = request.form.get("password")
+        user = Users.query.filter_by(username=username).first()
+        if user is None:
+            alert = "Invalid username or password"
+        elif check_password_hash(user.password, password):
+            #placeholder:
+            alert = "Signed in successfully"
+        else:
+            alert = "Invalid username or password"
+    
+    return render_template("signin.html", alert=alert)
