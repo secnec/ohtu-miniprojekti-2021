@@ -2,12 +2,12 @@
 Library  SeleniumLibrary
 
 *** Variables ***
-${SERVER}  127.0.0.1:5000
+${SERVER}  library-of-reading-tips.herokuapp.com
 ${BROWSER}  headlesschrome
 ${DELAY}  0.3 seconds
-${HOME URL}  http://${SERVER}
-${REGISTER URL}  http://${SERVER}/register
-${SIGNIN URL}  http://${SERVER}/signin
+${HOME URL}  https://${SERVER}
+${REGISTER URL}  https://${SERVER}/register
+${SIGNIN URL}  https://${SERVER}/signin
 
 *** Keywords ***
 Open And Configure Browser
