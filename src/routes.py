@@ -35,18 +35,17 @@ def register():
             user = Users.query.filter_by(username=username).first()
 
             if user:
-                flash("Username already taken.")
+                flash("Username is already taken.")
                 return redirect(url_for("register"))
 
             new_user = Users(
                 username=username,
-                password=generate_password_hash(password, method="sha256"),
+                password=generate_password_hash(password),
             )
 
             db.session.add(new_user)
             db.session.commit()
 
-            # print(f"user fake created with {username=}, {password=}, {password_confirmation=}")
             return redirect(url_for("signin"))
         except Exception as error:
             flash(str(error))
@@ -64,9 +63,9 @@ def signin():
         if user is None:
             alert = "Invalid username or password"
         elif check_password_hash(user.password, password):
-            #placeholder:
+            # placeholder:
             alert = "Signed in successfully"
         else:
             alert = "Invalid username or password"
-    
+
     return render_template("signin.html", alert=alert)
