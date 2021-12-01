@@ -2,3 +2,7 @@ __pycache__
 .env
 /venv/
 /__pycache__/
+log.html
+output.xml
+report.html
+selenium-screenshot*
