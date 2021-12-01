@@ -27,4 +27,5 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name:  library-of-reading-tips
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          
+      - name: Run robot tests
+        run: poetry run robot src/tests
