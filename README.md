@@ -59,6 +59,6 @@ poetry shell
 flask run
 ```
 
-The application's continuous integration is run through GitHub Actions (link to be added).
+The application's continuous integration is run through [GitHub Actions](https://github.com/secnec/ohtu-miniprojekti-2021/actions).
 
-The application will be available in Heroku (link to be added).
+The application will be available in [Heroku](https://library-of-reading-tips.herokuapp.com/).
