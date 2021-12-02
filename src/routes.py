@@ -72,12 +72,15 @@ def signin():
     return render_template("signin.html", alert=alert)
 
 
+#todo: sisäänkirjautuminen edellytys vinkin luomiselle?
 @app.route("/add", methods=["get", "post"])
 def add():  
     if request.method == "POST":
+        username = session.get("username")
         title = request.form.get("title")
-        sql = "INSERT INTO tips (title) VALUES (:title)"
-        db.session.execute(sql, {"title": title})
+        url = request.form.get("url")
+        sql = "INSERT INTO tips (username, title, url) VALUES (:username, :title, :url)"
+        db.session.execute(sql, {"username": username, "title": title, "url": url})
         db.session.commit()
 
     return render_template("add_tips.html")
