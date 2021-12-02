@@ -9,7 +9,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    services:
+      postgres:
+        # Docker Hub image
+        image: postgres
+        env:
+          POSTGRES_PORT: 5432
+        PORTS:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.6.15
@@ -20,12 +33,15 @@ jobs:
         run: pip install poetry
       - name: Install dependencies
         run: poetry install
+      - name: Run robot tests
+        run: bash gh_actions_flask_robot.sh
+        env:
+          SECRET_KEY: TE$T_K€Y!
+          SQLALCHEMY_DATABASE_URI: postgresql://postgres@localhost:5432
       - name: Deploy to heroku
         uses: akhileshns/heroku-deploy@v3.0.0
         with:
           buildpack: python
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name:  library-of-reading-tips
+          heroku_app_name: library-of-reading-tips
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
-      - name: Run robot tests
-        run: poetry run robot src/tests
