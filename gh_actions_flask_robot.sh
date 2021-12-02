@@ -6,6 +6,7 @@ export SECRET_KEY=TEsT_KeY
 
 psql -h localhost -U postgres < schema.sql
 echo $SQLALCHEMY_DATABASE_URI
+
 SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@localhost:5432 poetry run flask run &
 
 sleep 30
