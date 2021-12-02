@@ -1,5 +1,5 @@
 from app import app, db
-from flask import redirect, render_template, request
+from flask import redirect, render_template, request, session
 from flask.helpers import flash, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -60,11 +60,12 @@ def signin():
         username = request.form.get("username")
         password = request.form.get("password")
         user = Users.query.filter_by(username=username).first()
+
         if user is None:
             alert = "Invalid username or password"
         elif check_password_hash(user.password, password):
-            # placeholder:
-            alert = "Signed in successfully"
+            session["username"] = user.username
+            return redirect("/add")
         else:
             alert = "Invalid username or password"
 
