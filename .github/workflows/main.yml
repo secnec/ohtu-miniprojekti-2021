@@ -36,10 +36,10 @@ jobs:
       - name: Install dependencies
         run: poetry install
       - name: Run robot tests
-        run: bash gh_actions_flask_robot.sh $SQLALCHEMY_DATABASE_URI $SECRET_KEY
+        run: bash gh_actions_flask_robot.sh
         env:
           PGPASSWORD: postgres
-          SQLALCHEMY_DATABASE_URI: postgresql://postgres:postgres@localhost:5432
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432
           SECRET_KEY: TEsT_KeY
       - name: Deploy to heroku
         uses: akhileshns/heroku-deploy@v3.0.0
