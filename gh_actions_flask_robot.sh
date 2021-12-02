@@ -1,7 +1,7 @@
 #!/bin/bash
 # Github Actionsia varten, jottei robot testejä suoriteta Herokussa.
 apt-get update
-apt-get install --yes postgresql-client #chromium-chromedriver
+# apt-get install --yes postgresql-client #chromium-chromedriver
 
 psql -h localhost -U postgres < schema.sql
 
