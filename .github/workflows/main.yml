@@ -15,7 +15,7 @@ jobs:
         image: postgres
         env:
           POSTGRES_PORT: 5432
-        PORTS:
+        ports:
           - 5432:5432
         # Set health checks to wait until postgres has started
         options: >-
