@@ -15,6 +15,7 @@ jobs:
         image: postgres
         env:
           POSTGRES_PORT: 5432
+          POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
         # Set health checks to wait until postgres has started
@@ -36,6 +37,7 @@ jobs:
       - name: Run robot tests
         run: bash gh_actions_flask_robot.sh
         env:
+          PGPASSWORD: postgres
           SECRET_KEY: TE$T_K€Y!
           SQLALCHEMY_DATABASE_URI: postgresql://postgres@localhost:5432
       - name: Deploy to heroku
