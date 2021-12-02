@@ -40,7 +40,7 @@ jobs:
         env:
           PGPASSWORD: postgres
           SQLALCHEMY_DATABASE_URI: postgresql://postgres:postgres@localhost:5432
-          SECRET_KEY: TE$T_K€Y!
+          SECRET_KEY: TEsT_KeY
       - name: Deploy to heroku
         uses: akhileshns/heroku-deploy@v3.0.0
         with:
