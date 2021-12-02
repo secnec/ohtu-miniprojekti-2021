@@ -69,3 +69,14 @@ def signin():
             alert = "Invalid username or password"
 
     return render_template("signin.html", alert=alert)
+
+
+@app.route("/add", methods=["get", "post"])
+def add():  
+    if request.method == "POST":
+        title = request.form.get("title")
+        sql = "INSERT INTO tips (title) VALUES (:title)"
+        db.session.execute(sql, {"title": title})
+        db.session.commit()
+
+    return render_template("add_tips.html")
