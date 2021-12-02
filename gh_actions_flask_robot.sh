@@ -1,6 +1,8 @@
 #!/bin/bash
 # Github Actionsia varten, jottei robot testejä suoriteta Herokussa.
 apt-get update
+export SQLALCHEMY_DATABASE_URI
+export SECRET_KEY
 # apt-get install --yes postgresql-client #chromium-chromedriver
 
 psql -h localhost -U postgres < schema.sql
