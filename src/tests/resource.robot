@@ -18,6 +18,9 @@ Open And Configure Browser
 Go To Main Page
     Go To  ${HOME URL}
 
+Go To Register Page
+    Go To  ${REGISTER URL}
+
 Register Page Should Be Open
     Title Should Be  Register
 
@@ -26,4 +29,7 @@ Go To Signin Page
 
 Signin Page Should Be Open
     Title Should Be  Signin
+
+Add Tips Page Should Be Open
+    Title Should Be  new reading tip
 

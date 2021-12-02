@@ -1,5 +1,6 @@
 *** Settings ***
 Resource  resource.robot
+Resource  register_resource.robot
 Suite Setup  Open And Configure Browser
 Suite Teardown  Close Browser
 Test Setup  Go To Main Page
@@ -45,9 +46,3 @@ Register Should Fail With
 Register With Sample Credentials
     Register With Credentials   bookreader  sala54n4!   sala54n4!
 
-Register With Credentials
-    [Arguments]  ${username}  ${password}  ${password_confirmation}
-    Input Text  username  ${username}
-    Input Password  password  ${password}
-    Input Password  password_confirmation  ${password_confirmation}
-    Click Button  Register
