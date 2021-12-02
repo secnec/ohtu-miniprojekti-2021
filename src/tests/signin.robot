@@ -14,11 +14,12 @@ Sign In With Valid Credentials
 Sign In With Invalid Username
     Go To Signin Page
     Sign In With Credentials  a  password
-    Signin Page Should Be Open
+    Sign In Should Fail With  Invalid username or password
 
 Sign In With Incorrect Password
     Go To Signin Page
     Sign In With Credentials  testertester  wrongpassword
+    Sign In Should Fail With  Invalid username or password
     
 *** Keywords ***
 
@@ -38,3 +39,8 @@ Sign In With Credentials
 
 Sign In With Testing Credentials
     Sign In With Credentials  testertester  aaaaaaaa
+
+Sign In Should Fail With
+    [Arguments]  ${error}
+    Page Should Contain  ${error}
+    Signin Page Should Be Open
