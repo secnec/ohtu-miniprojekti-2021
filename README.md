@@ -63,4 +63,4 @@ The application's continuous integration is run through [GitHub Actions](https:/
 
 The application will be available in [Heroku](https://library-of-reading-tips.herokuapp.com/).
 
-The application is licensed under [Creative Commons CC BY-NC-SA 3.0)(https://creativecommons.org/licenses/by-nc-sa/3.0/)
+The application is licensed under [Creative Commons CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/)
