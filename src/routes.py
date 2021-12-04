@@ -85,3 +85,8 @@ def add():
         db.session.commit()
 
     return render_template("add_tips.html")
+
+@app.route("/user", methods=["get", "post"])
+def own():
+    tips = Tips.query.filter_by(username=session["username"]).all()
+    return render_template("user_page.html", tips=tips)

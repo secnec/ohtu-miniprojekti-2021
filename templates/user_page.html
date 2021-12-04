@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Own page
+{% endblock %}
+
+{% block content %}
+
+<h2>Your own tips</h2>
+
+{% for tip in tips %}
+
+<li><a href={{ tip.url }}>{{ tip.title }}</a></li>
+
+{% endfor %}
+
+{% endblock %}
