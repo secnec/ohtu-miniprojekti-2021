@@ -80,7 +80,7 @@ def add():
         username = session.get("username")
         title = request.form.get("title")
         url = request.form.get("url")
-        sql = "INSERT INTO tips (username, title, url, visible) VALUES (:username, :title, :url, True)"
+        sql = "INSERT INTO tips (username, title, url) VALUES (:username, :title, :url)"
         db.session.execute(sql, {"username": username, "title": title, "url": url})
         db.session.commit()
 
