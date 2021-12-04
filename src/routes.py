@@ -3,12 +3,13 @@ from flask import redirect, render_template, request, session
 from flask.helpers import flash, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from .models import Users
+from .models import Users, Tips
 
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    tips = Tips.query.all()
+    return render_template("index.html", tips=tips)
 
 
 @app.route("/register", methods=["get", "post"])

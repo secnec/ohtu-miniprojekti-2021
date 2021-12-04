@@ -8,4 +8,10 @@ Opening page
 
 <h2>Opening page</h2>
 
+{% for tip in tips %}
+
+<li> {{ tip.url }} {{ tip.title }} {{ tip.username }} </li>
+
+{% endfor %}
+
 {% endblock %}
