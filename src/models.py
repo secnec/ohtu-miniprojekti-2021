@@ -11,3 +11,4 @@ class Tips(db.Model):
     username = db.Column(db.Text)
     title = db.Column(db.Text)
     url = db.Column(db.Text)
+    visible = db.Column(db.Boolean)
