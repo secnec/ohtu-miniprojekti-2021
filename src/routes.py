@@ -6,11 +6,30 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from .models import Users, Tips
 
 
-@app.route("/")
+@app.route("/", methods=["get", "post"])
 def index():
-    tips = Tips.query.all()
-    return render_template("index.html", tips=tips)
+    alert = None
 
+    if request.method == "GET":
+        tips = Tips.query.all()
+        return render_template("index.html", tips=tips)
+
+    if request.method == "POST":
+        requested_title = request.form.get("searchtitle")
+        if len(requested_title) < 3:
+            alert = "Search text must be at least 3 characters long."
+            tips = Tips.query.all()
+            return render_template("index.html", tips=tips, alert=alert)
+
+        else:
+            sql_search = '%{}%'.format(requested_title.lower())
+            tips = Tips.query.filter(Tips.title.like(sql_search)).all()
+            if len(tips) == 0:
+                alert = f"No tip titles contain: {requested_title}"
+                tips = Tips.query.all()
+                return render_template("index.html", tips=tips, alert=alert) 
+            else:
+                return render_template("index.html", tips=tips) 
 
 @app.route("/register", methods=["get", "post"])
 def register():

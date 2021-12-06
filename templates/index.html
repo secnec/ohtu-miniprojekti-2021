@@ -8,6 +8,21 @@ Opening page
 
 <h2>Opening page</h2>
 
+<form action="/" method ="POST">
+
+<p>
+    Search with title name: <input type="text" name="searchtitle" id="searchtitle">
+    <button type="submit"> Search
+    </button>
+
+</p>
+
+</form>
+
+{% if alert %}
+    <p class=error><strong>Error:</strong> {{ alert }}
+{% endif %}
+
 {% for tip in tips %}
 
 <li> {{ tip.url }} {{ tip.title }} {{ tip.username }} </li>
