@@ -1,13 +1,15 @@
-from app import app, db
+"""This module implements the routes for the flask app."""
 from flask import redirect, render_template, request, session
 from flask.helpers import flash, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
+from app import app, db
 
-from .models import Users, Tips
+from .models import Tips, Users
 
 
 @app.route("/", methods=["get", "post"])
 def index():
+    "This route implements the index page, which shows all of the public tips."
     alert = None
 
     if request.method == "GET":
@@ -21,18 +23,19 @@ def index():
             tips = Tips.query.all()
             return render_template("index.html", tips=tips, alert=alert)
 
-        else:
-            sql_search = '%{}%'.format(requested_title.lower())
-            tips = Tips.query.filter(Tips.title.like(sql_search)).all()
-            if len(tips) == 0:
-                alert = f"No tip titles contain: {requested_title}"
-                tips = Tips.query.all()
-                return render_template("index.html", tips=tips, alert=alert) 
-            else:
-                return render_template("index.html", tips=tips) 
+        sql_search = f"%{requested_title.lower()}%"
+        tips = Tips.query.filter(Tips.title.like(sql_search)).all()
+        if len(tips) == 0:
+            alert = f"No tip titles contain: {requested_title}"
+            tips = Tips.query.all()
+            return render_template("index.html", tips=tips, alert=alert)
+
+        return render_template("index.html", tips=tips)
+
 
 @app.route("/register", methods=["get", "post"])
 def register():
+    "This route implements user registration."
     if request.method == "GET":
         return render_template("register.html")
 
@@ -44,36 +47,33 @@ def register():
         if len(username) < 3:
             flash(str("Username must be at least 3 characters long."))
             return redirect(url_for("register"))
-        elif len(password) < 8:
+        if len(password) < 8:
             flash(str("Password must be at least 8 characters long."))
             return redirect(url_for("register"))
-        elif password != password_confirmation:
+        if password != password_confirmation:
             flash(str("Password and confirmation do not match."))
             return redirect(url_for("register"))
 
-        try:
-            user = Users.query.filter_by(username=username).first()
+        user = Users.query.filter_by(username=username).first()
 
-            if user:
-                flash("Username is already taken.")
-                return redirect(url_for("register"))
-
-            new_user = Users(
-                username=username,
-                password=generate_password_hash(password),
-            )
-
-            db.session.add(new_user)
-            db.session.commit()
-
-            return redirect(url_for("signin"))
-        except Exception as error:
-            flash(str(error))
+        if user:
+            flash("Username is already taken.")
             return redirect(url_for("register"))
+
+        new_user = Users(
+            username=username,
+            password=generate_password_hash(password),
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        return redirect(url_for("signin"))
 
 
 @app.route("/signin", methods=["get", "post"])
 def signin():
+    "This route implements user login."
     alert = None
 
     if request.method == "POST":
@@ -92,9 +92,10 @@ def signin():
     return render_template("signin.html", alert=alert)
 
 
-#todo: sisäänkirjautuminen edellytys vinkin luomiselle?
+# todo: sisäänkirjautuminen edellytys vinkin luomiselle?
 @app.route("/add", methods=["get", "post"])
-def add():  
+def add():
+    "This route allows adding new tips for logged in users."
     if request.method == "POST":
         username = session.get("username")
         title = request.form.get("title")
@@ -105,7 +106,9 @@ def add():
 
     return render_template("add_tips.html")
 
+
 @app.route("/user", methods=["get", "post"])
 def own():
+    "This route shows a user's own tips."
     tips = Tips.query.filter_by(username=session["username"], visible=True).all()
     return render_template("user_page.html", tips=tips)
