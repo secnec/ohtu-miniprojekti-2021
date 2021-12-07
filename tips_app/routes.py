@@ -1,13 +1,10 @@
 """This module implements the routes for the flask app."""
-from flask import redirect, render_template, request, session, Blueprint
-from flask import current_app as app
+from flask import Blueprint, redirect, render_template, request, session
 from flask.helpers import flash, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 
-
-from tips_app.models import Tips, Users
-
 from tips_app.db import db
+from tips_app.models import Tips, Users
 
 site = Blueprint("site", __name__, template_folder="templates")
 
@@ -133,18 +130,24 @@ def own():
 
 @site.route("/logout")
 def logout():
+    "This route logs the user out."
     del session["username"]
     return redirect("/")
 
-@site.route('/delete', methods=['POST'])
+
+@site.route("/delete", methods=["POST"])
 def delete_tip():
-    # This route allows users to delete their own tips.
-    # "Deletion" changes the tip visibility to False. 
-    # It does not actually delete it from the database.
+    """
+    This route allows users to delete their own tips.
+    "Deletion" changes the tip visibility to False.
+    It does not actually delete it from the database.
+    """
     try:
         username = session["username"]
     except:
-        return render_template("signin.html", alert="Please sign in to delete your tips.")
+        return render_template(
+            "signin.html", alert="Please sign in to delete your tips."
+        )
     id = request.form.get("tip_id_to_delete")
     sql = "UPDATE tips SET visible=False WHERE username=:username AND id=:id"
     db.session.execute(sql, {"username": username, "id": id})
