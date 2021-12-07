@@ -1,6 +1,4 @@
 import unittest
-import os
-import tempfile
 
 from tips_app import create_app
 from tips_app.routes import register
