@@ -112,3 +112,8 @@ def own():
     "This route shows a user's own tips."
     tips = Tips.query.filter_by(username=session["username"], visible=True).all()
     return render_template("user_page.html", tips=tips)
+
+@app.route("/logout")
+def logout():
+    del session["username"]
+    return redirect("/")
