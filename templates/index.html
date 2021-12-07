@@ -25,7 +25,7 @@ Opening page
 
 {% for tip in tips %}
 
-<li> {{ tip.url }} {{ tip.title }} {{ tip.username }} </li>
+<li> <a href={{ tip.url }}> {{ tip.title }} </a> </li>
 
 {% endfor %}
 
