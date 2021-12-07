@@ -2,7 +2,7 @@
 This module implements the SQLAlchemy models
 required by the flask app.
 """
-from app import db
+from tips_app import db
 
 
 class Users(db.Model):
