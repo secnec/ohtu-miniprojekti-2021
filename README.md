@@ -47,7 +47,7 @@ cd ohtu-miniprojekti-2021
 poetry install
 ```
 
-Before running the application you must set the database URL and the secret key to something unique for Flask. If you do not have a database installed, you can try to use `sqlite://`, which should create a database in-memory.
+Before running the application you must set the database URL and the secret key to something unique for Flask. If you do not have a database installed, you can try to use `sqlite://`, which should create a database in-memory. Alternatively you can add a file called `.env`, which contains the necessary variables.
 
 ```bash
 export DATABASE_URL=sqlite://
