@@ -92,12 +92,16 @@ def signin():
     return render_template("signin.html", alert=alert)
 
 
-# todo: sisäänkirjautuminen edellytys vinkin luomiselle?
 @app.route("/add", methods=["get", "post"])
 def add():
     "This route allows adding new tips for logged in users."
+    try:
+      username = session["username"]
+    except:
+        alert = "Please sign in to add a tip."
+        return render_template("signin.html", alert=alert)
+   
     if request.method == "POST":
-        username = session.get("username")
         title = request.form.get("title")
         url = request.form.get("url")
         sql = "INSERT INTO tips (username, title, url) VALUES (:username, :title, :url)"
