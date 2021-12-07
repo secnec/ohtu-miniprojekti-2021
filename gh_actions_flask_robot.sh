@@ -15,3 +15,5 @@ poetry run flask run &
 sleep 30
 
 poetry run robot src/tests
+
+kill $(jobs -p)
