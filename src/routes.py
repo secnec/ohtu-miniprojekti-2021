@@ -98,12 +98,15 @@ def add():
     try:
       username = session["username"]
     except:
-        alert = "Please sign in to add a tip."
-        return render_template("signin.html", alert=alert)
+        return render_template("signin.html", alert="Please sign in to add a tip.")
    
     if request.method == "POST":
         title = request.form.get("title")
         url = request.form.get("url")
+
+        if (title.strip() == "" or url.strip() == ""):
+            return render_template("add_tips.html", alert="Tip must have a title and an URL.")
+
         sql = "INSERT INTO tips (username, title, url) VALUES (:username, :title, :url)"
         db.session.execute(sql, {"username": username, "title": title, "url": url})
         db.session.commit()
