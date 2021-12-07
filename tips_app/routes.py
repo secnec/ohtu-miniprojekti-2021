@@ -135,3 +135,18 @@ def own():
 def logout():
     del session["username"]
     return redirect("/")
+
+@site.route('/delete', methods=['POST'])
+def delete_tip():
+    # This route allows users to delete their own tips.
+    # "Deletion" changes the tip visibility to False. 
+    # It does not actually delete it from the database.
+    try:
+        username = session["username"]
+    except:
+        return render_template("signin.html", alert="Please sign in to delete your tips.")
+    url = request.form.get("tip_url_to_delete")
+    sql = "UPDATE tips SET visible=False WHERE username=:username AND url=:url"
+    db.session.execute(sql, {"username": username, "url": url})
+    db.session.commit()
+    return render_template("user_page.html")
