@@ -13,7 +13,7 @@ Own page
 <li>
     <form action="/delete" method="post" onSubmit="return confirm('Are you sure you wish to delete?');">
         <a href={{ tip.url }}>{{ tip.title }} </a>
-        <input type=hidden value="{{ tip.url }}"name=tip_url_to_delete />
+        <input type=hidden value="{{ tip.id }}"name=tip_id_to_delete />
         <button type="submit">Delete</button>
         
     </form>

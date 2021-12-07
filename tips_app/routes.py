@@ -145,8 +145,8 @@ def delete_tip():
         username = session["username"]
     except:
         return render_template("signin.html", alert="Please sign in to delete your tips.")
-    url = request.form.get("tip_url_to_delete")
-    sql = "UPDATE tips SET visible=False WHERE username=:username AND url=:url"
-    db.session.execute(sql, {"username": username, "url": url})
+    id = request.form.get("tip_id_to_delete")
+    sql = "UPDATE tips SET visible=False WHERE username=:username AND id=:id"
+    db.session.execute(sql, {"username": username, "id": id})
     db.session.commit()
-    return render_template("user_page.html")
+    return redirect("/user")
