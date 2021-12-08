@@ -114,6 +114,7 @@ class AppTest(unittest.TestCase):
     def add_tip_as_testuser(self, title, url):
         self.signin("testuser", "pass1234")
         data = {
+            "username": "testuser",
             "title": title,
             "url": url
         }
@@ -127,3 +128,33 @@ class AppTest(unittest.TestCase):
         self.add_tip_as_testuser("sahara", "https://en.wikipedia.org/wiki/Sahara")
         index = self.client.get("/")
         self.assertIn(b"sahara", index.data)
+
+    def test_tips_db_is_empty_at_first(self):
+        with self.app.app_context():
+           tip_count = self.db.session.query(Tips.id).count()
+
+        self.assertEqual(tip_count, 0)
+        
+    def test_valid_tip_is_added(self):
+        self.add_tip_as_testuser("himalaja", "https://fi.wikipedia.org/wiki/Himalaja")
+                
+        with self.app.app_context():
+           tip_count = self.db.session.query(Tips.id).count()
+
+        self.assertEqual(tip_count, 1)
+
+        with self.app.app_context():
+            tip = (
+                self.db.session.query(Tips.title)
+                .filter(Tips.title == "himalaja")
+                .first()
+            )
+        self.assertEqual(tip.title, "himalaja")
+
+    def test_tip_without_title_fails(self):
+        add = self.add_tip_as_testuser(" ", "https://fi.wikipedia.org/wiki/Himalaja")
+        self.assertIn(b"Tip must have a title and an URL.", add.data)
+
+    def test_tip_without_url_fails(self):
+        add = self.add_tip_as_testuser("himalaja", " ")
+        self.assertIn(b"Tip must have a title and an URL.", add.data)
