@@ -41,7 +41,7 @@ class AppTest(unittest.TestCase):
             follow_redirects=True
         )
 
-    def test_register_works(self):
+    def test_register_and_register_with_unavailable_username_works(self):
         res = self.client.get("/register")
         self.assertIn(b"Registration page", res.data)
 
@@ -57,14 +57,28 @@ class AppTest(unittest.TestCase):
 
         res = self.register("asder", "password", "password")
         with self.app.app_context():
-            users = (
-                self.db.session.query(Users.username)
-                .filter(Users.username == "asder")
-                .all()
-            )
+            user_count = self.db.session.query(Users.username).count()
 
+        self.assertEqual(user_count, 2)
+    
+    def test_register_with_invalid_credentials_works(self):
+        res = self.register("usernami", "PAS", "PAS")
+        with self.app.app_context():
+            user_count = self.db.session.query(Users.username).count()
         self.assertIn(b"Registration page", res.data)
-        self.assertEqual(len(users), 1)
+        self.assertEqual(user_count, 1)
+
+        res = self.register("us", "password1234", "password1234")
+        with self.app.app_context():
+            user_count = self.db.session.query(Users.username).count()
+        self.assertIn(b"Registration page", res.data)
+        self.assertEqual(user_count, 1)
+
+        res = self.register("usernami", "pa$$w0rd1234", "paaassswooord")
+        with self.app.app_context():
+            user_count = self.db.session.query(Users.username).count()
+        self.assertIn(b"Registration page", res.data)
+        self.assertEqual(user_count, 1)
 
     def test_index_page_opens(self):
         response = self.client.get("/")
