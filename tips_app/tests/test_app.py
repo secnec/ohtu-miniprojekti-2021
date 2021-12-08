@@ -15,6 +15,8 @@ class AppTest(unittest.TestCase):
                     self.db.engine.execute(line)
 
         self.client = self.app.test_client()
+        
+        self.register("testuser", "pass1234", "pass1234")
 
     def register(self, username, password, password_confirmation):
         data = {
@@ -26,6 +28,17 @@ class AppTest(unittest.TestCase):
             "/register",
             data=data,
             follow_redirects=True,
+        )
+
+    def signin(self, username, password):
+        data = {
+            "username": username,
+            "password": password
+        }
+        return self.client.post(
+            "/signin",
+            data=data,
+            follow_redirects=True
         )
 
     def test_register_works(self):
@@ -71,3 +84,15 @@ class AppTest(unittest.TestCase):
 
     def test_index_search_succeeds(self):
         pass
+
+    def test_signin_redirects_to_add_tips_page_with_valid_credentials(self):
+        signin = self.signin("testuser", "pass1234")
+        self.assertIn(b"Add a new reading tip", signin.data)
+
+    def test_signin_results_in_error_message_with_invalid_username(self):
+        signin = self.signin("", "875878687")
+        self.assertIn(b"Invalid username or password", signin.data)
+
+    def test_signin_results_in_error_message_with_incorrect_username(self):
+        signin = self.signin("testuser", "875878687")
+        self.assertIn(b"Invalid username or password", signin.data)

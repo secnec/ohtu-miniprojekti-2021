@@ -84,7 +84,7 @@ def signin():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
-        user = Users.query.filter_by(username=username).first()
+        user = db.session.query(Users.username, Users.password).filter(Users.username == username).first()
 
         if user is None:
             alert = "Invalid username or password"
