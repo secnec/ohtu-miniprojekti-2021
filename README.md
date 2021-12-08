@@ -34,7 +34,8 @@ See the product and sprint backlog in [Google Docs](https://docs.google.com/spre
 Definition of done the user stories in general is the following:
 
 - Tasks are completed
-- Tests are done and passed
+- Tests (unit tests and user story tests with Robot Framwork, coverage > 80%) are done and passed
+- Code quality is on a good level (pylint > 8.0/10)
 - Updated and working application is running on Heroku
 
 ## Installation and Running
@@ -69,22 +70,31 @@ flask run
 
 The application is available in [Heroku](https://library-of-reading-tips.herokuapp.com/).
 
-The application's continuous integration is run through [GitHub Actions](https://github.com/secnec/ohtu-miniprojekti-2021/actions).
-
 ## Testing
 
-To run tests
+To run unit tests locally
 
 ```bash
 poetry run pytest
 ```
 
-To get the coverage report, in console or in html
+To get the coverage report for unit tests, in console or in html, locally
 
 ```bash
 poetry run coverage run --branch -m pytest
 poetry run covereage report -m
 poetry run coverage html
 ```
+
+To run user story tests with Robot Framework locally
+
+```bash
+poetry shell
+robot tips_app/tests
+```
+
+Please make sure you have the application open at the time of running the robot tests.
+
+The application's continuous integration is run through [GitHub Actions](https://github.com/secnec/ohtu-miniprojekti-2021/actions). Both unit and user story tests are part of GitHub Actions.
 
 The application is licensed under [Creative Commons CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/)
