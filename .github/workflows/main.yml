@@ -40,7 +40,11 @@ jobs:
       - name: Run Python unit tests
         run: poetry run coverage run --branch -m unittest
       - name: Show coverage report
-        run: poetry run coverage report
+        run: poetry run coverage report --show-missing
+      - name: Generate XML coverage report
+        run: poetry run coverage xml
+      - name: Send coverage.xml to Codecov
+        uses: codecov/codecov-action@v2
       - name: Run robot tests
         run: bash gh_actions_flask_robot.sh
         env:

@@ -1,5 +1,7 @@
 # Ohtu-miniprojekti-2021 - Library of Reading Tips
 
+[![codecov](https://codecov.io/gh/secnec/ohtu-miniprojekti-2021/branch/main/graph/badge.svg?token=MOTSQ0AKAF)](https://codecov.io/gh/secnec/ohtu-miniprojekti-2021) ![main workflow](https://github.com/secnec/ohtu-miniprojekti-2021/actions/workflows/main.yml/badge.svg)
+
 ## Application purpose
 
 Purpose of the **Library of Reading Tips** application is to store links to useful reading materials - books, websites, podcasts, etc - related to computer science.
