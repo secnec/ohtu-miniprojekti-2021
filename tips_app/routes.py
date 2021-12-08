@@ -15,14 +15,14 @@ def index():
     alert = None
 
     if request.method == "GET":
-        tips = Tips.query.filter_by(visible=True).all()
+        tips = db.session.query(Tips.title, Tips.url).filter_by(visible=True).all()
         return render_template("index.html", tips=tips)
 
     if request.method == "POST":
         requested_title = request.form.get("searchtitle")
         if len(requested_title) < 3:
             alert = "Search text must be at least 3 characters long."
-            tips = Tips.query.filter_by(visible=True).all()
+            tips = db.session.query(Tips.title, Tips.url).filter_by(visible=True).all()
             return render_template("index.html", tips=tips, alert=alert)
 
         sql_search = f"%{requested_title.lower()}%"
@@ -31,7 +31,7 @@ def index():
         ).all()
         if len(tips) == 0:
             alert = f"No tip titles contain: {requested_title}"
-            tips = Tips.query.filter_by(visible=True).all()
+            tips = db.session.query(Tips.title, Tips.url).filter_by(visible=True).all()
             return render_template("index.html", tips=tips, alert=alert)
 
         return render_template("index.html", tips=tips)

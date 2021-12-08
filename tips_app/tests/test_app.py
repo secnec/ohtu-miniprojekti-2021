@@ -96,3 +96,20 @@ class AppTest(unittest.TestCase):
     def test_signin_results_in_error_message_with_incorrect_username(self):
         signin = self.signin("testuser", "875878687")
         self.assertIn(b"Invalid username or password", signin.data)
+
+    def add_tip_as_testuser(self, title, url):
+        self.signin("testuser", "pass1234")
+        data = {
+            "title": title,
+            "url": url
+        }
+        return self.client.post("/add", data=data, follow_redirects=True)
+    
+    def test_nonexistent_tips_wont_appear_on_index(self):
+        index = self.client.get("/")
+        self.assertNotIn(b"sahara", index.data)
+    
+    def test_added_tip_appears_on_index(self):
+        self.add_tip_as_testuser("sahara", "https://en.wikipedia.org/wiki/Sahara")
+        index = self.client.get("/")
+        self.assertIn(b"sahara", index.data)
