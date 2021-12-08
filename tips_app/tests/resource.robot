@@ -8,6 +8,7 @@ ${DELAY}  0.3 seconds
 ${HOME URL}  http://${SERVER}
 ${REGISTER URL}  http://${SERVER}/register
 ${SIGNIN URL}  http://${SERVER}/signin
+${ADD URL}  http://${SERVER}/add
 
 *** Keywords ***
 Open And Configure Browser
@@ -33,3 +34,5 @@ Signin Page Should Be Open
 Add Tips Page Should Be Open
     Title Should Be  new reading tip
 
+Go To Add Tips Page
+    Go To  ${ADD URL}

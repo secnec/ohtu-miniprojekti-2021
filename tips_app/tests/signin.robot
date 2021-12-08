@@ -1,6 +1,6 @@
 *** Settings ***
 Resource  resource.robot
-Resource  register_resource.robot
+Resource  user_resource.robot
 Suite Setup  Open And Configure Browser
 Suite Teardown  Close Browser
 Test Setup  Go To Main Page
@@ -30,12 +30,6 @@ Create Tester Account
     Go To Register Page
     Register With Testing Credentials
     Go To Signin Page
-
-Sign In With Credentials
-    [Arguments]  ${username}  ${password}
-    Input Text  username  ${username}
-    Input Password  password  ${password}
-    Click Button  Sign in
 
 Sign In With Testing Credentials
     Sign In With Credentials  testertester  aaaaaaaa
