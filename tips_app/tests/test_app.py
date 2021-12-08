@@ -52,3 +52,22 @@ class AppTest(unittest.TestCase):
 
         self.assertIn(b"Registration page", res.data)
         self.assertEqual(len(users), 1)
+
+    def test_index_page_opens(self):
+        response = self.client.get("/")
+        self.assertIn(b"Opening page", response.data)
+    
+    def input_search_word(self, word):
+        data = {"searchtitle": word}
+        return self.client.post("/", data=data)
+
+    def test_index_search_too_short(self):
+        response = self.input_search_word("a")
+        self.assertIn(b"Search text must be at least 3 characters long.", response.data)
+    
+    def test_index_search_fails(self):
+        response = self.input_search_word("thisnotindatabase")
+        self.assertIn(b"No tip titles contain: thisnotindatabase", response.data)
+
+    def test_index_search_succeeds(self):
+        pass
