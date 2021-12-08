@@ -67,8 +67,24 @@ poetry shell
 flask run
 ```
 
+The application is available in [Heroku](https://library-of-reading-tips.herokuapp.com/).
+
 The application's continuous integration is run through [GitHub Actions](https://github.com/secnec/ohtu-miniprojekti-2021/actions).
 
-The application will be available in [Heroku](https://library-of-reading-tips.herokuapp.com/).
+## Testing
+
+To run tests
+
+```bash
+poetry run pytest
+```
+
+To get the coverage report, in console or in html
+
+```bash
+poetry run coverage run --branch -m pytest
+poetry run covereage report -m
+poetry run coverage html
+```
 
 The application is licensed under [Creative Commons CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/)
