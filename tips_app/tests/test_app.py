@@ -158,3 +158,11 @@ class AppTest(unittest.TestCase):
     def test_tip_without_url_fails(self):
         add = self.add_tip_as_testuser("himalaja", " ")
         self.assertIn(b"Tip must have an URL and a title at least 3 characters long.", add.data)
+    
+    def logout(self):
+        return self.client.get("/logout", follow_redirects = True)
+
+    def test_logout(self):
+        self.signin("testuser", "pass1234")
+        logout = self.logout()
+        self.assertIn(b"Opening page", logout.data)
