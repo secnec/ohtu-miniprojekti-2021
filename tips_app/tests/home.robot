@@ -48,6 +48,15 @@ Added Tips Appear On Home Page
     Click Link  sahara
     Title Should Be  Sahara - Wikipedia
 
+Make Successful Search
+    Go To Register Page
+    Register With Credentials  username  password1  password1
+    Go To Signin Page
+    Sign In With Credentials  username  password1
+    Add Tip With Credentials  sahara  https://en.wikipedia.org/wiki/Sahara
+    Go To Main Page
+    Search With Credentials  sahara
+    Page Should Contain  sahara
 
 *** Keywords ***
 Search With Credentials
