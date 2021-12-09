@@ -36,3 +36,6 @@ Add Tips Page Should Be Open
 
 Go To Add Tips Page
     Go To  ${ADD URL}
+
+Log Out
+    Click Link  Log out
