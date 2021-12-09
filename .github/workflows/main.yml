@@ -38,7 +38,7 @@ jobs:
       - name: Run Pylint
         run: poetry run pylint tips_app
       - name: Run Python unit tests
-        run: poetry run coverage run --branch -m unittest
+        run: poetry run coverage run -m unittest
       - name: Show coverage report
         run: poetry run coverage report --show-missing
       - name: Generate XML coverage report
