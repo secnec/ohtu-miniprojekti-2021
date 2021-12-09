@@ -188,3 +188,30 @@ class AppTest(unittest.TestCase):
         self.signin("testuser", "pass1234")
         logout = self.logout()
         self.assertIn(b"Opening page", logout.data)
+
+    def add_and_remove_tip_as_testuser(self, title, url):
+        self.signin("testuser", "pass1234")
+        data = {
+            "username": "testuser",
+            "title": title,
+            "url": url
+        }
+        self.client.post("/add", data=data, follow_redirects=True)
+        with self.app.app_context():
+            tip = (
+                self.db.session.query(Tips.id)
+                .filter(Tips.title == title)
+                .first()
+            )
+        
+        del_data = {
+            "username": "testuser", 
+            "tip_id_to_delete": tip[0]
+            }
+        return self.client.post("/delete", data=del_data, follow_redirects=True)
+        
+
+    def test_removed_tip_not_on_index(self):
+        self.add_and_remove_tip_as_testuser("sahara", "https://en.wikipedia.org/wiki/Sahara")
+        index = self.client.get("/")
+        self.assertNotIn(b"sahara", index.data)
