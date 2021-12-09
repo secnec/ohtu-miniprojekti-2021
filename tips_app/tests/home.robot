@@ -15,9 +15,13 @@ Click Signin Link
     Click Link  Sign-in
     Signin Page Should Be Open
 
+Add Tip Without Sign In
+    Go To Add Tips Page
+    Page Should Contain  Please sign in to add a tip.
+
 Add Tip Without URL
     Sign In And Go To Add Tip Page
-    Add Tip With Credentials  sahara  ${EMPTY}
+    Add Tip With Credentials  emptyurl  ${EMPTY}
     Adding Should Fail With  Tip must have an URL and a title at least 3 characters long.
 
 Add Tip With Invalid Title
