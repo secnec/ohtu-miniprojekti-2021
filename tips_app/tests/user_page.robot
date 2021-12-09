@@ -1,6 +1,7 @@
 *** Settings ***
 Resource  resource.robot
 Resource  user_resource.robot
+Resource  add_tip_resource.robot
 Suite Setup  Open And Configure Browser
 Suite Teardown  Close Browser
 Test Setup  Go To Main Page
@@ -14,6 +15,7 @@ Tip Added By Others Does Not Show On User Page
     Sign In As User2
     Go To User Page
     Page Should Not Contain  google
+    Log Out
 
 Tip Added By User Shows Up On User Page
     Sign In As User1
@@ -27,12 +29,12 @@ Tip Added By User Shows Up On User Page
 *** Keywords ***
 Sign In As User1
     Go To Register Page
-    Register With Credentials  user1 aaaaaaaa  aaaaaaaa
+    Register With Credentials  user1  aaaaaaaa  aaaaaaaa
     Go To Signin Page
     Sign In With Credentials  user1  aaaaaaaa
 
 Sign In As User2
     Go To Register Page
-    Register With Credentials  user2 bbbbbbbb  bbbbbbbb
+    Register With Credentials  user2  bbbbbbbb  bbbbbbbb
     Go To Signin Page
     Sign In With Credentials  user2  bbbbbbbb
