@@ -8,6 +8,10 @@ Own page
 
 <h2>Your own tips</h2>
 
+{% if alert %}
+<p class=error><strong>Error:</strong> {{ alert }}
+{% endif %}
+
 {% for tip in tips %}
 
 <li>

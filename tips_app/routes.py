@@ -127,7 +127,11 @@ def add():
 @site.route("/user", methods=["get", "post"])
 def own():
     "This route shows a user's own tips."
-    tips = Tips.query.filter_by(username=session["username"], visible=True).all()
+    try:
+        username = session["username"]
+    except:
+        return render_template("signin.html", alert="Please sign in to view your own tips.")
+    tips = Tips.query.filter_by(username=username, visible=True).all()
     return render_template("user_page.html", tips=tips)
 
 
