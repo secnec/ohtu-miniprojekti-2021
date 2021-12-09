@@ -45,8 +45,8 @@ Added Tips Appear On Home Page
     Add Tip With Credentials  sahara  https://en.wikipedia.org/wiki/Sahara
     Go To Main Page
     Page Should Contain  sahara
-
-
+    Click Link  sahara
+    Title Should Be  Sahara - Wikipedia
 
 
 *** Keywords ***
