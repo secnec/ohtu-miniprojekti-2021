@@ -109,9 +109,9 @@ def add():
         title = request.form.get("title")
         url = request.form.get("url")
 
-        if title.strip() == "" or url.strip() == "":
+        if len(title.strip()) < 3 or url.strip() == "":
             return render_template(
-                "add_tips.html", alert="Tip must have a title and an URL."
+                "add_tips.html", alert="Tip must have an URL and a title at least 3 characters long."
             )
 
         sql = "INSERT INTO tips (username, title, url) VALUES (:username, :title, :url)"

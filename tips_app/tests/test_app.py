@@ -152,9 +152,9 @@ class AppTest(unittest.TestCase):
         self.assertEqual(tip.title, "himalaja")
 
     def test_tip_without_title_fails(self):
-        add = self.add_tip_as_testuser(" ", "https://fi.wikipedia.org/wiki/Himalaja")
-        self.assertIn(b"Tip must have a title and an URL.", add.data)
+        add = self.add_tip_as_testuser("hi", "https://fi.wikipedia.org/wiki/Himalaja")
+        self.assertIn(b"Tip must have an URL and a title at least 3 characters long.", add.data)
 
     def test_tip_without_url_fails(self):
         add = self.add_tip_as_testuser("himalaja", " ")
-        self.assertIn(b"Tip must have a title and an URL.", add.data)
+        self.assertIn(b"Tip must have an URL and a title at least 3 characters long.", add.data)

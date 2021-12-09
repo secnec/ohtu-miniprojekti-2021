@@ -15,6 +15,16 @@ Click Signin Link
     Click Link  Sign-in
     Signin Page Should Be Open
 
+Add Tip Without URL
+    Sign In And Go To Add Tip Page
+    Add Tip With Credentials  sahara  ${EMPTY}
+    Adding Should Fail With  Tip must have an URL and a title at least 3 characters long.
+
+Add Tip With Invalid Title
+    Sign In And Go To Add Tip Page
+    Add Tip With Credentials  sa  https://en.wikipedia.org/wiki/Sahara
+    Adding Should Fail With  Tip must have an URL and a title at least 3 characters long.
+
 Make Too Short Search
     Search With Credentials  a
     Search Should Fail With   Search text must be at least 3 characters long.
@@ -33,6 +43,8 @@ Added Tips Appear On Home Page
     Page Should Contain  sahara
 
 
+
+
 *** Keywords ***
 Search With Credentials
     [Arguments]  ${searchtitle}
@@ -42,4 +54,14 @@ Search With Credentials
 Search Should Fail With
     [Arguments]  ${error}
     Page Should Contain  ${error}
+    
+Adding Should Fail With
+    [Arguments]  ${error}
+    Page Should Contain  ${error}
 
+Sign In And Go To Add Tip Page
+    Go To Register Page
+    Register With Credentials  username  password1  password1
+    Go To Signin Page
+    Sign In With Credentials  username  password1
+    Go To Add Tips Page
