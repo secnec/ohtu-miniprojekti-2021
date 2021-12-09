@@ -11,6 +11,7 @@ Sign In With Valid Credentials
     Sign In With Testing Credentials
     Page Should Not Contain  Sign-in
     Add Tips Page Should Be Open
+    Log Out
 
 Sign In With Invalid Username
     Go To Signin Page
