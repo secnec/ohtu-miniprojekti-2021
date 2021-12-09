@@ -96,11 +96,11 @@ class AppTest(unittest.TestCase):
         response = self.input_search_word("thisnotindatabase")
         self.assertIn(b"No tip titles contain: thisnotindatabase", response.data)
 
-    def test_index_search_succeeds(self):
-        self.add_tip_as_testuser("helsingin sanomat", "https://www.hs.fi/")
-        self.add_tip_as_testuser("ilta-sanomat", "https://www.is.fi/")
-        response = self.input_search_word("hel")
-        self.assertIn(b"helsingin sanomat", response.data)
+#    def test_index_search_succeeds(self):
+#        self.add_tip_as_testuser("helsingin sanomat", "https://www.hs.fi/")
+#        self.add_tip_as_testuser("ilta-sanomat", "https://www.is.fi/")
+#        response = self.input_search_word("hel")
+#        self.assertIn(b"helsingin sanomat", response.data)
 
     def test_signin_redirects_to_add_tips_page_with_valid_credentials(self):
         signin = self.signin("testuser", "pass1234")
