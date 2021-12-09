@@ -11,7 +11,8 @@ class AppTest(unittest.TestCase):
 
         with self.app.app_context():
             with open("schema.sql", "r") as file:
-                for line in file.read().split("\n"):
+                script = file.read().replace("SERIAL PRIMARY KEY", "INTEGER PRIMARY KEY")
+                for line in script.split("\n"):
                     self.db.engine.execute(line)
 
         self.client = self.app.test_client()
