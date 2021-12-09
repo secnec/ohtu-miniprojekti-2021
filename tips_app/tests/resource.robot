@@ -8,6 +8,7 @@ ${HOME URL}  http://${SERVER}
 ${REGISTER URL}  http://${SERVER}/register
 ${SIGNIN URL}  http://${SERVER}/signin
 ${ADD URL}  http://${SERVER}/add
+${USER URL}  http://${SERVER}/user
 
 *** Keywords ***
 Open And Configure Browser
@@ -34,6 +35,12 @@ Add Tips Page Should Be Open
 
 Go To Add Tips Page
     Go To  ${ADD URL}
+
+Go To User Page
+    Go to  ${USER URL}
+
+User Page Should Be Open
+    Title Should Be  user page
 
 Log Out
     Click Link  Log out

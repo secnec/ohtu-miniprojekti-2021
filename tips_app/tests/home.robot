@@ -63,6 +63,10 @@ Make Successful Search
     Page Should Contain  sahara
     Log Out
 
+User Page Without Sign In
+    Go To User Page
+    Page Should Contain  Please sign in to view your own tips.
+
 *** Keywords ***
 Search With Credentials
     [Arguments]  ${searchtitle}
