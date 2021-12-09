@@ -9,6 +9,7 @@ Test Setup  Go To Main Page
 Sign In With Valid Credentials
     Create Tester Account
     Sign In With Testing Credentials
+    Page Should Not Contain  Sign-in
     Add Tips Page Should Be Open
 
 Sign In With Invalid Username
