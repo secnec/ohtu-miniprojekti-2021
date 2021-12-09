@@ -97,10 +97,10 @@ class AppTest(unittest.TestCase):
         self.assertIn(b"No tip titles contain: thisnotindatabase", response.data)
 
     def test_index_search_succeeds(self):
-        self.add_tip_as_testuser("Helsingin Sanomat", "https://www.hs.fi/")
-        self.add_tip_as_testuser("Ilta-Sanomat", "https://www.is.fi/")
-        response = self.input_search_word("Hel")
-        self.assertIn(b"Helsingin Sanomat", response.data)
+        self.add_tip_as_testuser("helsingin sanomat", "https://www.hs.fi/")
+        self.add_tip_as_testuser("ilta-sanomat", "https://www.is.fi/")
+        response = self.input_search_word("hel")
+        self.assertIn(b"helsingin sanomat", response.data)
 
     def test_signin_redirects_to_add_tips_page_with_valid_credentials(self):
         signin = self.signin("testuser", "pass1234")
@@ -148,7 +148,7 @@ class AppTest(unittest.TestCase):
     def test_added_tip_is_a_link(self):
         self.add_tip_as_testuser("sahara", "https://en.wikipedia.org/wiki/Sahara")
         index = self.client.get("/")
-        self.assertIn(b"<a href=\"https://en.wikipedia.org/wiki/Sahara\"> sahara </a>", index.data)
+        self.assertIn(b"<a href=https://en.wikipedia.org/wiki/Sahara> sahara </a>", index.data)
 
     def test_tips_db_is_empty_at_first(self):
         with self.app.app_context():
