@@ -26,7 +26,7 @@ def index():
             return render_template("index.html", tips=tips, alert=alert)
 
         sql_search = f"%{requested_title.lower()}%"
-        tips = Tips.query.filter(
+        tips = db.session.query(Tips.title, Tips.url).filter(
             Tips.title.like(sql_search), Tips.visible == True
         ).all()
         if len(tips) == 0:
