@@ -111,6 +111,19 @@ class AppTest(unittest.TestCase):
         signin = self.signin("testuser", "875878687")
         self.assertIn(b"Invalid username or password", signin.data)
 
+    def test_sign_in_link_exists_when_user_is_not_signed_in(self):
+        index = self.client.get("/")
+        self.assertIn(b"Sign-in", index.data)
+
+    def test_sign_in_link_is_hidden_when_user_is_signed_in(self):
+        signin = self.signin("testuser", "pass1234")
+        self.assertNotIn(b"Sign-in", signin.data)
+
+    def test_going_to_sign_in_page_while_signed_in_redirects_to_index(self):
+        self.signin("testuser", "pass1234")
+        attempt = self.client.get("/signin", follow_redirects=True)
+        self.assertIn(b"Opening page", attempt.data)
+
     def add_tip_as_testuser(self, title, url):
         self.signin("testuser", "pass1234")
         data = {
@@ -128,6 +141,11 @@ class AppTest(unittest.TestCase):
         self.add_tip_as_testuser("sahara", "https://en.wikipedia.org/wiki/Sahara")
         index = self.client.get("/")
         self.assertIn(b"sahara", index.data)
+
+    def test_added_tip_is_a_link(self):
+        self.add_tip_as_testuser("sahara", "https://en.wikipedia.org/wiki/Sahara")
+        index = self.client.get("/")
+        self.assertIn(b"<a href=https://en.wikipedia.org/wiki/Sahara> sahara </a>", index.data)
 
     def test_tips_db_is_empty_at_first(self):
         with self.app.app_context():

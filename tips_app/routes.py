@@ -81,6 +81,9 @@ def signin():
     "This route implements user login."
     alert = None
 
+    if session:
+        return redirect("/")
+
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
