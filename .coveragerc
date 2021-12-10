@@ -1,0 +1,4 @@
+[run]
+omit =
+    # testejä ei lasketa
+    tips_app/tests/*
