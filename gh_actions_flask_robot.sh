@@ -12,7 +12,10 @@ psql -h localhost -U postgres < schema.sql
 # Flask suoritetaan taustalla
 poetry run flask run &
 
-sleep 30
+until curl -s -f -o /dev/null 127.0.0.1:5000
+do
+    sleep 3
+done
 
 poetry run robot tips_app/tests
 value=$?
