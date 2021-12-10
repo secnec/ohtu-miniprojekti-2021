@@ -72,6 +72,8 @@ flask run
 
 The application is available in [Heroku](https://library-of-reading-tips.herokuapp.com/).
 
+The application is available as a release on [Github](https://github.com/secnec/ohtu-miniprojekti-2021/releases/tag/0.1.0).
+
 ## Testing
 
 To run unit tests locally
@@ -96,8 +98,6 @@ robot tips_app/tests
 ```
 
 Please make sure you have the application open at the time of running the robot tests.
-
-The application is available as a release on [Github](https://github.com/secnec/ohtu-miniprojekti-2021/releases/tag/0.1.0).
 
 The application's continuous integration is run through [GitHub Actions](https://github.com/secnec/ohtu-miniprojekti-2021/actions). Both unit and user story tests are part of GitHub Actions.
 
