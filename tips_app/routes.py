@@ -2,6 +2,7 @@
 from flask import Blueprint, redirect, render_template, request, session
 from flask.helpers import flash, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
+from .search import search_close_matches
 
 from tips_app.db import db
 from tips_app.models import Tips, Users
@@ -13,25 +14,30 @@ site = Blueprint("site", __name__, template_folder="templates")
 def index():
     "This route implements the index page, which shows all of the public tips."
     alert = None
+    all_tips = db.session.query(Tips.title, Tips.url).filter_by(visible=True).all()
 
     if request.method == "GET":
-        tips = db.session.query(Tips.title, Tips.url).filter_by(visible=True).all()
+        tips = all_tips
         return render_template("index.html", tips=tips)
 
     if request.method == "POST":
         requested_title = request.form.get("searchtitle")
+
+        closest_titles = search_close_matches(all_tips, requested_title)
+
         if len(requested_title) < 3:
             alert = "Search text must be at least 3 characters long."
-            tips = db.session.query(Tips.title, Tips.url).filter_by(visible=True).all()
+            tips = all_tips
             return render_template("index.html", tips=tips, alert=alert)
 
         sql_search = f"%{requested_title.lower()}%"
         tips = db.session.query(Tips.title, Tips.url).filter(
             Tips.title.like(sql_search), Tips.visible == True
         ).all()
+
         if len(tips) == 0:
             alert = f"No tip titles contain: {requested_title}"
-            tips = db.session.query(Tips.title, Tips.url).filter_by(visible=True).all()
+            tips = all_tips
             return render_template("index.html", tips=tips, alert=alert)
 
         return render_template("index.html", tips=tips)
