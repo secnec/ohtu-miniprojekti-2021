@@ -46,6 +46,7 @@ def index():
 @site.route("/register", methods=["get", "post"])
 def register():
     "This route implements user registration."
+    alert = None
     if request.method == "GET":
         return render_template("register.html")
 
@@ -57,21 +58,23 @@ def register():
         password_confirmation = request.form.get("password_confirmation")
 
         if not username or len(username) < 3:
-            flash(str("Username must be at least 3 characters long."))
-            return redirect(url_for("site.register"))
+            alert = "Username must be at least 3 characters long."
+            return render_template("register.html", alert=alert, username=username, password=password, password_confirmation=password_confirmation)
+
         if len(password) < 8:
-            flash(str("Password must be at least 8 characters long."))
-            return redirect(url_for("site.register"))
+            alert = "Password must be at least 8 characters long."
+            return render_template("register.html", alert=alert, username=username, password=password, password_confirmation=password_confirmation)
+
         if password != password_confirmation:
-            flash(str("Password and confirmation do not match."))
-            return redirect(url_for("site.register"))
+            alert = "Password and confirmation do not match."
+            return render_template("register.html", alert=alert, username=username, password=password, password_confirmation=password_confirmation)
 
         user = (
             db.session.query(Users.username).filter(Users.username == username).first()
         )
         if user:
-            flash("Username is already taken.")
-            return redirect(url_for("site.register"))
+            alert = "Username is already taken." 
+            return render_template("register.html", alert=alert, username=username, password=password, password_confirmation=password_confirmation)
 
         new_user = Users(
             username=username,
@@ -79,7 +82,7 @@ def register():
         )
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for("site.signin"))
+        return render_template("signin.html", username=username, password=password)
 
 
 @site.route("/signin", methods=["get", "post"])
