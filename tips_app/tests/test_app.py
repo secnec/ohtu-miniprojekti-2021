@@ -18,6 +18,7 @@ class AppTest(unittest.TestCase):
         self.client = self.app.test_client()
         
         self.register("testuser", "pass1234", "pass1234")
+        self.register("testuser2", "pass4321", "pass4321")
 
     def register(self, username, password, password_confirmation):
         data = {
@@ -60,26 +61,26 @@ class AppTest(unittest.TestCase):
         with self.app.app_context():
             user_count = self.db.session.query(Users.username).count()
 
-        self.assertEqual(user_count, 2)
+        self.assertEqual(user_count, 3)
     
     def test_register_with_invalid_credentials_works(self):
         res = self.register("usernami", "PAS", "PAS")
         with self.app.app_context():
             user_count = self.db.session.query(Users.username).count()
         self.assertIn(b"Registration page", res.data)
-        self.assertEqual(user_count, 1)
+        self.assertEqual(user_count, 2)
 
         res = self.register("us", "password1234", "password1234")
         with self.app.app_context():
             user_count = self.db.session.query(Users.username).count()
         self.assertIn(b"Registration page", res.data)
-        self.assertEqual(user_count, 1)
+        self.assertEqual(user_count, 2)
 
         res = self.register("usernami", "pa$$w0rd1234", "paaassswooord")
         with self.app.app_context():
             user_count = self.db.session.query(Users.username).count()
         self.assertIn(b"Registration page", res.data)
-        self.assertEqual(user_count, 1)
+        self.assertEqual(user_count, 2)
 
     def test_index_page_opens(self):
         response = self.client.get("/")
@@ -130,6 +131,15 @@ class AppTest(unittest.TestCase):
 
     def add_tip_as_testuser(self, title, url):
         self.signin("testuser", "pass1234")
+        data = {
+            "username": "testuser",
+            "title": title,
+            "url": url
+        }
+        return self.client.post("/add", data=data, follow_redirects=True)
+
+    def add_tip_as_testuser2(self, title, url):
+        self.signin("testuser2", "pass4321")
         data = {
             "username": "testuser",
             "title": title,
@@ -215,3 +225,16 @@ class AppTest(unittest.TestCase):
         self.add_and_remove_tip_as_testuser("sahara", "https://en.wikipedia.org/wiki/Sahara")
         index = self.client.get("/")
         self.assertNotIn(b"sahara", index.data)
+
+    def test_user_page_shows_tip(self):
+        self.add_tip_as_testuser("google", "https://google.com")
+        userpage = self.client.get("/user")
+        self.assertIn(b"google", userpage.data)
+
+    def test_user_page_shows_tip_only_if_it_was_made_by_signed_in_user(self):
+        self.add_tip_as_testuser("helsinki", "https://fi.wikipedia.org/wiki/Helsinki")
+        self.logout()
+        self.add_tip_as_testuser2("hanko", "https://fi.wikipedia.org/wiki/Hanko")
+        userpage = self.client.get("/user")
+        self.assertNotIn(b"helsinki", userpage.data)
+        self.assertIn(b"hanko", userpage.data)
