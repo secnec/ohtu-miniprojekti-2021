@@ -40,7 +40,7 @@ def index():
             tips = all_tips
             return render_template("index.html", tips=tips, alert=alert)
 
-        return render_template("index.html", tips=tips)
+        return render_template("index.html", tips=tips, searchtitle="")
 
 
 @site.route("/register", methods=["get", "post"])

@@ -11,22 +11,21 @@ Opening page
 <form action="/" method ="POST">
 
 <p>
-    Search with title name: <input type="text" name="searchtitle" id="searchtitle">
+    Search with title name: <input type="text" name="searchtitle" value="{{ request.form['searchtitle'] }}" id="searchtitle">
     <button type="submit"> Search
     </button>
-
 </p>
 
 </form>
 
 {% if alert %}
-    <p class=error><strong>Error:</strong> {{ alert }}
+    <p class=error><strong>Error:</strong> {{ alert }} </p>
 {% endif %}
 
+<ul>
 {% for tip in tips %}
-
 <li> <a href={{ tip.url }}> {{ tip.title }} </a> </li>
-
 {% endfor %}
+</ul>
 
 {% endblock %}
