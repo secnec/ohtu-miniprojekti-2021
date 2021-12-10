@@ -14,7 +14,7 @@ Go To Register Page and Register
 Go To Register Page and Register With Existing Username
     Click Link  Register
     Register With Sample Credentials
-    Register Should Fail With  Username is already taken.
+    Register Should Fail With  Username is already takenasdasdasd.
 
 Go To Register Page and Register With Too Short Username
     Click Link  Register
