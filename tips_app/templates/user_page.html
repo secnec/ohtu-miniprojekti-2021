@@ -9,9 +9,10 @@ user page
 <h2>Your own tips</h2>
 
 {% if alert %}
-<p class=error><strong>Error:</strong> {{ alert }}
+<p class=error><strong>Error:</strong> {{ alert }} </p>
 {% endif %}
 
+<ul>
 {% for tip in tips %}
 
 <li>
@@ -24,5 +25,6 @@ user page
 </li>
 
 {% endfor %}
+</ul>
 
 {% endblock %}

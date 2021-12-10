@@ -130,6 +130,7 @@ def add():
         db.session.execute(sql, {"username": username, "title": title, "url": url})
         db.session.commit()
 
+#        return redirect("/user")
     return render_template("add_tips.html")
 
 
