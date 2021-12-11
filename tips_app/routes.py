@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from .search import search_close_matches
 
 from tips_app.db import db
-from tips_app.models import Tips, Users
+from tips_app.models import Tips, Users, Likes
 
 site = Blueprint("site", __name__, template_folder="templates")
 
@@ -14,7 +14,7 @@ site = Blueprint("site", __name__, template_folder="templates")
 def index():
     "This route implements the index page, which shows all of the public tips."
     alert = None
-    all_tips = db.session.query(Tips.title, Tips.url).filter_by(visible=True).all()
+    all_tips = db.session.query(Tips.title, Tips.url, Tips.id).filter_by(visible=True).all()
 
     if request.method == "GET":
         tips = all_tips
@@ -31,7 +31,7 @@ def index():
             return render_template("index.html", tips=tips, alert=alert)
 
         sql_search = f"%{requested_title.lower()}%"
-        tips = db.session.query(Tips.title, Tips.url).filter(
+        tips = db.session.query(Tips.title, Tips.url, Tips.id).filter(
             Tips.title.like(sql_search), Tips.visible == True
         ).all()
 
@@ -170,3 +170,25 @@ def delete_tip():
     db.session.execute(sql, {"username": username, "id": id})
     db.session.commit()
     return redirect("/user")
+
+@site.route("/like", methods=["get","POST"])
+def like_tip():
+    """
+    This route lets a user to like a tip
+    """
+    try:
+        username = session["username"]
+    except:
+        return render_template(
+            "signin.html", alert="Please sign in to like a tip.")
+
+    users_id = "SELECT id FROM users WHERE username=:username"
+    user_id = db.session.execute(users_id, {"username": username}).one()[0]
+    tip_id = request.form.get("tip_id")
+
+    sql = "INSERT INTO likes (user_id, tip_id) VALUES (:user_id, :tip_id)"
+    db.session.execute(sql, {"user_id": user_id, "tip_id": tip_id})
+    sql = "UPDATE tips SET likes = likes + 1 WHERE id=:tip_id"
+    db.session.execute(sql, {"tip_id": tip_id})
+    db.session.commit()
+    return redirect("/")

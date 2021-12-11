@@ -24,7 +24,13 @@ Opening page
 
 <ul>
 {% for tip in tips %}
-<li> <a href={{ tip.url }}> {{ tip.title }} </a> </li>
+<li> 
+    <form action="/like" method="post">
+        <a href={{ tip.url }}> {{ tip.title }} </a> 
+        <input type=hidden value="{{ tip.id }}"name=tip_id />
+        <button type="submit">Like</button>
+    </form>
+</li>
 {% endfor %}
 </ul>
 
