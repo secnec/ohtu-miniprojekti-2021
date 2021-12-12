@@ -182,13 +182,19 @@ def like_tip():
         return render_template(
             "signin.html", alert="Please sign in to like a tip.")
 
-    users_id = "SELECT id FROM users WHERE username=:username"
-    user_id = db.session.execute(users_id, {"username": username}).one()[0]
+    user_id_sql = "SELECT id FROM users WHERE username=:username"
+    user_id = db.session.execute(user_id_sql, {"username": username}).one()[0]
     tip_id = request.form.get("tip_id")
 
-    sql = "INSERT INTO likes (user_id, tip_id) VALUES (:user_id, :tip_id)"
-    db.session.execute(sql, {"user_id": user_id, "tip_id": tip_id})
-    sql = "UPDATE tips SET likes = likes + 1 WHERE id=:tip_id"
-    db.session.execute(sql, {"tip_id": tip_id})
-    db.session.commit()
-    return redirect("/")
+    like_id_sql = "SELECT id FROM likes WHERE user_id=:user_id AND tip_id=:tip_id"
+    check = db.session.execute(like_id_sql, {"user_id": user_id, "tip_id": tip_id}).all()
+    if check != []:
+        return render_template(
+            "signin.html", alert="Please jump in a lake.")
+    else:
+        insert_like_sql = "INSERT INTO likes (user_id, tip_id) VALUES (:user_id, :tip_id)"
+        db.session.execute(insert_like_sql, {"user_id": user_id, "tip_id": tip_id})
+        update_tips_sql = "UPDATE tips SET likes = likes + 1 WHERE id=:tip_id"
+        db.session.execute(update_tips_sql, {"tip_id": tip_id})
+        db.session.commit()
+        return redirect("/")
