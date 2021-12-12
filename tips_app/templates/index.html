@@ -28,7 +28,9 @@ Opening page
     <form action="/like" method="post">
         <a href={{ tip.url }}> {{ tip.title }} </a> 
         <input type=hidden value="{{ tip.id }}"name=tip_id />
+        {% if session.username %}
         <button type="submit">Like</button>
+        {% endif %}
     </form>
 </li>
 {% endfor %}
