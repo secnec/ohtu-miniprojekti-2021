@@ -190,7 +190,7 @@ def like_tip():
     check = db.session.execute(like_id_sql, {"user_id": user_id, "tip_id": tip_id}).all()
     if check != []:
         return render_template(
-            "signin.html", alert="Please jump in a lake.")
+            "index.html", alert="You have already liked this tip.") #väliaikainen tykätty jo error
     else:
         insert_like_sql = "INSERT INTO likes (user_id, tip_id) VALUES (:user_id, :tip_id)"
         db.session.execute(insert_like_sql, {"user_id": user_id, "tip_id": tip_id})
