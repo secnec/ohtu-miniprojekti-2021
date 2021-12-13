@@ -199,4 +199,6 @@ def like_tip():
     db.session.commit()
     return redirect("/")
 
-#remim
+
+
+#tämä on muutos.
