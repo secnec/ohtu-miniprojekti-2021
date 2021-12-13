@@ -2,10 +2,10 @@
 from flask import Blueprint, redirect, render_template, request, session
 from flask.helpers import flash, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
-from .search import search_close_matches
 
 from tips_app.db import db
 from tips_app.models import Tips, Users, Likes
+from .search import search_close_matches
 
 site = Blueprint("site", __name__, template_folder="templates")
 
@@ -73,7 +73,7 @@ def register():
             db.session.query(Users.username).filter(Users.username == username).first()
         )
         if user:
-            alert = "Username is already taken." 
+            alert = "Username is already taken."
             return render_template("register.html", alert=alert, username=username, password=password, password_confirmation=password_confirmation)
 
         new_user = Users(
@@ -165,9 +165,9 @@ def delete_tip():
         return render_template(
             "signin.html", alert="Please sign in to delete your tips."
         )
-    id = request.form.get("tip_id_to_delete")
-    sql = "UPDATE tips SET visible=False WHERE username=:username AND id=:id"
-    db.session.execute(sql, {"username": username, "id": id})
+    tip_id = request.form.get("tip_id_to_delete")
+    sql = "UPDATE tips SET visible=False WHERE username=:username AND id=:tip_id"
+    db.session.execute(sql, {"username": username, "tip_id": tip_id})
     db.session.commit()
     return redirect("/user")
 
@@ -191,10 +191,10 @@ def like_tip():
     if check != []:
         return render_template(
             "index.html", alert="You have already liked this tip.") #väliaikainen tykätty jo error
-    else:
-        insert_like_sql = "INSERT INTO likes (user_id, tip_id) VALUES (:user_id, :tip_id)"
-        db.session.execute(insert_like_sql, {"user_id": user_id, "tip_id": tip_id})
-        update_tips_sql = "UPDATE tips SET likes = likes + 1 WHERE id=:tip_id"
-        db.session.execute(update_tips_sql, {"tip_id": tip_id})
-        db.session.commit()
-        return redirect("/")
+
+    insert_like_sql = "INSERT INTO likes (user_id, tip_id) VALUES (:user_id, :tip_id)"
+    db.session.execute(insert_like_sql, {"user_id": user_id, "tip_id": tip_id})
+    update_tips_sql = "UPDATE tips SET likes = likes + 1 WHERE id=:tip_id"
+    db.session.execute(update_tips_sql, {"tip_id": tip_id})
+    db.session.commit()
+    return redirect("/")

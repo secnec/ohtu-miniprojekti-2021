@@ -27,9 +27,9 @@ def search_close_matches(tips, search_term):
     """Returns a list of closely matching tip titles.
 
     Args:
-        tips (list): A list of tips. 
+        tips (list): A list of tips.
                     Elements are assumed to be tuples.
-        
+
         search_term (string): The search term to match the titles.
 
     Returns:
