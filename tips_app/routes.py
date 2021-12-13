@@ -102,7 +102,7 @@ def signin():
             alert = "Invalid username or password"
         elif check_password_hash(user.password, password):
             session["username"] = user.username
-            return redirect("/add")
+            return redirect("/user")
         else:
             alert = "Invalid username or password"
 
@@ -129,8 +129,8 @@ def add():
         sql = "INSERT INTO tips (username, title, url) VALUES (:username, :title, :url)"
         db.session.execute(sql, {"username": username, "title": title, "url": url})
         db.session.commit()
+        return redirect("/user")
 
-#        return redirect("/user")
     return render_template("add_tips.html")
 
 

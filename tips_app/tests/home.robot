@@ -40,10 +40,7 @@ Make Unsuccessful Search
     Search Should Fail With   No tip titles contain: thisdoesnotexist
 
 Added Tips Appear On Home Page
-    Go To Register Page
-    Register With Credentials  username  password1  password1
-    Go To Signin Page
-    Sign In With Credentials  username  password1
+    Sign In And Go To Add Tip Page
     Add Tip With Credentials  sahara  https://en.wikipedia.org/wiki/Sahara
     Go To Main Page
     Page Should Contain  sahara
@@ -53,10 +50,7 @@ Added Tips Appear On Home Page
     Log Out
 
 Make Successful Search
-    Go To Register Page
-    Register With Credentials  username  password1  password1
-    Go To Signin Page
-    Sign In With Credentials  username  password1
+    Sign In And Go To Add Tip Page
     Add Tip With Credentials  sahara  https://en.wikipedia.org/wiki/Sahara
     Go To Main Page
     Search With Credentials  sahara

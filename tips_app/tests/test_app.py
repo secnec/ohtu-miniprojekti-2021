@@ -104,9 +104,9 @@ class AppTest(unittest.TestCase):
         response = self.input_search_word("hel")
         self.assertIn(b"helsingin sanomat", response.data)
 
-    def test_signin_redirects_to_add_tips_page_with_valid_credentials(self):
+    def test_signin_redirects_to_user_page_with_valid_credentials(self):
         signin = self.signin("testuser", "pass1234")
-        self.assertIn(b"Add a new reading tip", signin.data)
+        self.assertIn(b"Your own tips", signin.data)
 
     def test_signin_results_in_error_message_with_invalid_username(self):
         signin = self.signin("", "875878687")
@@ -182,6 +182,10 @@ class AppTest(unittest.TestCase):
                 .first()
             )
         self.assertEqual(tip.title, "himalaja")
+
+    def test_succesfull_add_tip_redirects_to_user_page(self):
+        add = self.add_tip_as_testuser("himalaja", "https://fi.wikipedia.org/wiki/Himalaja")
+        self.assertIn(b"Your own tips", add.data)
 
     def test_tip_without_title_fails(self):
         add = self.add_tip_as_testuser("hi", "https://fi.wikipedia.org/wiki/Himalaja")
