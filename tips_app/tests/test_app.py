@@ -240,3 +240,28 @@ class AppTest(unittest.TestCase):
         userpage = self.client.get("/user")
         self.assertNotIn(b"helsinki", userpage.data)
         self.assertIn(b"hanko", userpage.data)
+
+    def like_tip(self, username, tip_id):
+        data = {
+            "username": username,
+            "tip_id": tip_id
+        }
+        return self.client.post(
+            "/like",
+            data=data,
+            follow_redirects=True
+        )
+
+    def test_liking_raises_like_counter(self):
+        self.add_tip_as_testuser("oulu", "https://fi.wikipedia.org/wiki/Oulu")
+        self.like_tip("testuser", 1)
+        self.logout()
+        self.signin("testuser2", "pass4321")
+        self.like_tip("testuser2", 1)
+        with self.app.app_context():
+            like_amount = (
+                    self.db.session.query(Tips.likes)
+                    .filter(Tips.title == "oulu")
+                    .first()[0]
+                )
+        self.assertEqual(like_amount, 2)

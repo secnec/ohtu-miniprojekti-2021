@@ -17,7 +17,7 @@ class Tips(db.Model):
     title = db.Column(db.Text)
     url = db.Column(db.Text)
     visible = db.Column(db.Boolean)
-    likes = db.Column(db.Boolean)
+    likes = db.Column(db.Integer)
 
 class Likes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
