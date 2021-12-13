@@ -198,4 +198,5 @@ def like_tip():
     db.session.execute(update_tips_sql, {"tip_id": tip_id})
     db.session.commit()
     return redirect("/")
-    #testi
+
+#remim
