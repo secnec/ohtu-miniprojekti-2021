@@ -11,7 +11,8 @@ Opening page
 <form action="/" method="POST">
 
     <p>
-        Search with title name: <input type="text" name="searchtitle" value="{{ request.form['searchtitle'] }}" id="searchtitle">
+        Search with title name: <input type="text" name="searchtitle" value="{{ request.form['searchtitle'] }}"
+            id="searchtitle">
         <button type="submit"> Search </button>
     </p>
 
@@ -24,11 +25,7 @@ Opening page
 <ul>
     {% for tip in tips %}
     <li>
-<li> 
-    <li>
         <form action="/like" method="post">
-            <a href={{ tip.url }}> {{ tip.title }} </a>
-        <a href={{ tip.url }}> {{ tip.title }} </a> 
             <a href={{ tip.url }}> {{ tip.title }} </a>
             <input type=hidden value="{{ tip.id }}" name=tip_id />
             {% if liked_tips and tip.id in liked_tips %}
