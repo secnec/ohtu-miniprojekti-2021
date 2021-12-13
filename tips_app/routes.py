@@ -10,7 +10,7 @@ from tips_app.search import search_close_matches
 site = Blueprint("site", __name__, template_folder="templates")
 
 
-@site.route("/", methods=["get", "post"])
+@site.route("/", methods=["GET", "POST"])
 def index():
     "This route implements the index page, which shows all of the public tips."
     alert = None
@@ -53,7 +53,7 @@ def index():
         return render_template("index.html", tips=tips, liked_tips=liked_tips, searchtitle="")
 
 
-@site.route("/register", methods=["get", "post"])
+@site.route("/register", methods=["GET", "POST"])
 def register():
     "This route implements user registration."
     alert = None
@@ -95,7 +95,7 @@ def register():
         return render_template("signin.html", username=username, password=password)
 
 
-@site.route("/signin", methods=["get", "post"])
+@site.route("/signin", methods=["GET", "POST"])
 def signin():
     "This route implements user login."
     alert = None
@@ -119,7 +119,7 @@ def signin():
     return render_template("signin.html", alert=alert)
 
 
-@site.route("/add", methods=["get", "post"])
+@site.route("/add", methods=["GET", "POST"])
 def add():
     "This route allows adding new tips for logged in users."
     try:
@@ -144,7 +144,7 @@ def add():
     return render_template("add_tips.html")
 
 
-@site.route("/user", methods=["get", "post"])
+@site.route("/user", methods=["GET", "POST"])
 def own():
     "This route shows a user's own tips."
     try:
