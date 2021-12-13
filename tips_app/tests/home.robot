@@ -67,6 +67,17 @@ User Page Without Sign In
     Go To User Page
     Page Should Contain  Please sign in to view your own tips.
 
+Like Button Visible When Signed In
+    Sign In And Go To Add Tip Page
+    Add Tip With Credentials  Tip  https://en.wikipedia.org/wiki/Tip
+    Log Out
+    Click Link  Index
+    Page Should Not Contain  Like
+    Go To Signin Page
+    Sign In With Credentials  username  password1
+    Click Link  Index
+    Page Should Contain  Like
+
 *** Keywords ***
 Search With Credentials
     [Arguments]  ${searchtitle}
