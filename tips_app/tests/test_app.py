@@ -1,8 +1,9 @@
 import unittest
 
 from tips_app import create_app
+import tips_app
 from tips_app.routes import register
-from tips_app.models import Users, Tips
+from tips_app.models import Likes, Users, Tips
 
 
 class AppTest(unittest.TestCase):
@@ -265,3 +266,69 @@ class AppTest(unittest.TestCase):
                     .first()[0]
                 )
         self.assertEqual(like_amount, 2)
+
+    def test_unliking_removes_like_when_logged_in(self):
+        self.add_tip_as_testuser("Tippy Tip", "https://google.com")
+        self.like_tip("testuser", 1)
+
+        with self.app.app_context():
+            like_count = self.db.session.query(Likes).count()
+            tippy_count = self.db.session.query(Tips).first().likes
+        self.assertEqual(like_count, 1)
+        self.assertEqual(tippy_count, 1)
+
+        self.like_tip("testuser", 1)
+
+        with self.app.app_context():
+            like_count = self.db.session.query(Likes).count()
+            tippy_count = self.db.session.query(Tips).first().likes
+        self.assertEqual(like_count, 0)
+        self.assertEqual(tippy_count, 0)
+
+        self.like_tip("testuser", 1)
+        self.logout()
+        self.like_tip("testuser", 1)
+
+        with self.app.app_context():
+            like_count = self.db.session.query(Likes).count()
+            tippy_count = self.db.session.query(Tips).first().likes
+        self.assertEqual(like_count, 1)
+        self.assertEqual(tippy_count, 1)
+
+
+    def test_unliking_removes_correct_like(self):
+        self.add_tip_as_testuser("Tippy Tip", "https://google.com")
+        self.like_tip("testuser", 1)
+
+        self.logout()
+
+        index_contents = self.client.get("/").data
+        self.assertNotIn(b"Like", index_contents)
+
+        self.add_tip_as_testuser2("Top of the Tip", "https://google.com")
+
+        self.like_tip("testuser2", 2)
+
+        index_contents = self.client.get("/").data
+        self.assertIn(b"Unlike", index_contents)
+        self.assertIn(b"Like", index_contents)
+
+        with self.app.app_context():
+            like_count = self.db.session.query(Likes).count()
+            tippy_count = self.db.session.query(Tips).filter(Tips.id == 1).first().likes
+            top_count = self.db.session.query(Tips).filter(Tips.id == 2).first().likes
+        self.assertEqual(like_count, 2)
+        self.assertEqual(tippy_count, 1)
+        self.assertEqual(top_count, 1)
+
+        self.like_tip("testuser2", 2)
+
+        with self.app.app_context():
+            like_count = self.db.session.query(Likes).count()
+            tippy_like = self.db.session.query(Likes).filter(Likes.tip_id == 1).first()
+            tippy_count = self.db.session.query(Tips).filter(Tips.id == 1).first().likes
+            top_count = self.db.session.query(Tips).filter(Tips.id == 2).first().likes
+        self.assertEqual(like_count, 1)
+        self.assertIsNotNone(tippy_like)
+        self.assertEqual(tippy_count, 1)
+        self.assertEqual(top_count, 0)

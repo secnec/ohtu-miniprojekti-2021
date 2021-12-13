@@ -21,5 +21,5 @@ class Tips(db.Model):
 
 class Likes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    like_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer)
     tip_id = db.Column(db.Integer)

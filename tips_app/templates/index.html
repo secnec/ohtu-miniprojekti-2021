@@ -8,32 +8,37 @@ Opening page
 
 <h2>Opening page</h2>
 
-<form action="/" method ="POST">
+<form action="/" method="POST">
 
-<p>
-    Search with title name: <input type="text" name="searchtitle" value="{{ request.form['searchtitle'] }}" id="searchtitle">
-    <button type="submit"> Search
-    </button>
-</p>
+    <p>
+        Search with title name: <input type="text" name="searchtitle" value="{{ request.form['searchtitle'] }}" id="searchtitle">
+        <button type="submit"> Search </button>
+    </p>
 
 </form>
 
 {% if alert %}
-    <p class=error><strong>Error:</strong> {{ alert }} </p>
+<p class=error><strong>Error:</strong> {{ alert }} </p>
 {% endif %}
 
 <ul>
-{% for tip in tips %}
+    {% for tip in tips %}
+    <li>
 <li> 
-    <form action="/like" method="post">
+    <li>
+        <form action="/like" method="post">
+            <a href={{ tip.url }}> {{ tip.title }} </a>
         <a href={{ tip.url }}> {{ tip.title }} </a> 
-        <input type=hidden value="{{ tip.id }}"name=tip_id />
-        {% if session.username %}
-        <button type="submit">Like</button>
-        {% endif %}
-    </form>
-</li>
-{% endfor %}
+            <a href={{ tip.url }}> {{ tip.title }} </a>
+            <input type=hidden value="{{ tip.id }}" name=tip_id />
+            {% if liked_tips and tip.id in liked_tips %}
+            <button type="submit"> Unlike </button>
+            {% elif session.username %}
+            <button type="submit"> Like </button>
+            {% endif %}
+        </form>
+    </li>
+    {% endfor %}
 </ul>
 
 {% endblock %}

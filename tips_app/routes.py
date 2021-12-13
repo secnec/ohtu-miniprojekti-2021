@@ -4,8 +4,8 @@ from flask.helpers import flash, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from tips_app.db import db
-from tips_app.models import Tips, Users, Likes
-from .search import search_close_matches
+from tips_app.models import Likes, Tips, Users
+from tips_app.search import search_close_matches
 
 site = Blueprint("site", __name__, template_folder="templates")
 
@@ -15,10 +15,20 @@ def index():
     "This route implements the index page, which shows all of the public tips."
     alert = None
     all_tips = db.session.query(Tips.title, Tips.url, Tips.id).filter_by(visible=True).all()
+ 
+    try:
+        username = session["username"]
+        user_id = db.session.query(Users).filter(Users.username == username).first().id
+
+        liked_tips_result = db.session.query(Likes.tip_id).filter(Likes.user_id == user_id).all()
+        liked_tips = [tip.tip_id for tip in liked_tips_result]
+    except:
+        liked_tips = None
+
 
     if request.method == "GET":
         tips = all_tips
-        return render_template("index.html", tips=tips)
+        return render_template("index.html", tips=tips, liked_tips=liked_tips)
 
     if request.method == "POST":
         requested_title = request.form.get("searchtitle")
@@ -28,7 +38,7 @@ def index():
         if len(requested_title) < 3:
             alert = "Search text must be at least 3 characters long."
             tips = all_tips
-            return render_template("index.html", tips=tips, alert=alert)
+            return render_template("index.html", tips=tips, liked_tips=liked_tips, alert=alert)
 
         sql_search = f"%{requested_title.lower()}%"
         tips = db.session.query(Tips.title, Tips.url, Tips.id).filter(
@@ -38,9 +48,9 @@ def index():
         if len(tips) == 0:
             alert = f"No tip titles contain: {requested_title}"
             tips = all_tips
-            return render_template("index.html", tips=tips, alert=alert)
+            return render_template("index.html", tips=tips, liked_tips=liked_tips, alert=alert)
 
-        return render_template("index.html", tips=tips, searchtitle="")
+        return render_template("index.html", tips=tips, liked_tips=liked_tips, searchtitle="")
 
 
 @site.route("/register", methods=["get", "post"])
@@ -171,10 +181,10 @@ def delete_tip():
     db.session.commit()
     return redirect("/user")
 
-@site.route("/like", methods=["get","POST"])
+@site.route("/like", methods=["POST"])
 def like_tip():
     """
-    This route lets a user to like a tip
+    This route lets a user like a tip.
     """
     try:
         username = session["username"]
@@ -186,11 +196,12 @@ def like_tip():
     user_id = db.session.execute(user_id_sql, {"username": username}).one()[0]
     tip_id = request.form.get("tip_id")
 
-    like_id_sql = "SELECT id FROM likes WHERE user_id=:user_id AND tip_id=:tip_id"
-    check = db.session.execute(like_id_sql, {"user_id": user_id, "tip_id": tip_id}).all()
-    if check != []:
-        return render_template(
-            "index.html", alert="You have already liked this tip.") #väliaikainen tykätty jo error
+    existing_like = db.session.query(Likes).filter(Likes.user_id == user_id, Likes.tip_id == tip_id).first()
+    if existing_like:
+        db.session.delete(existing_like)
+        db.session.query(Tips).filter(Tips.id == tip_id).update({"likes": Tips.likes - 1})
+        db.session.commit()
+        return redirect("/")
 
     insert_like_sql = "INSERT INTO likes (user_id, tip_id) VALUES (:user_id, :tip_id)"
     db.session.execute(insert_like_sql, {"user_id": user_id, "tip_id": tip_id})
