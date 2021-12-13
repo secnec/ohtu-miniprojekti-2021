@@ -114,7 +114,7 @@ def add():
     "This route allows adding new tips for logged in users."
     try:
         username = session["username"]
-    except:
+    except Exception:
         return render_template("signin.html", alert="Please sign in to add a tip.")
 
     if request.method == "POST":
@@ -139,7 +139,7 @@ def own():
     "This route shows a user's own tips."
     try:
         username = session["username"]
-    except:
+    except Exception:
         return render_template("signin.html", alert="Please sign in to view your own tips.")
     tips = Tips.query.filter_by(username=username, visible=True).all()
     return render_template("user_page.html", tips=tips)
@@ -161,7 +161,7 @@ def delete_tip():
     """
     try:
         username = session["username"]
-    except:
+    except Exception:
         return render_template(
             "signin.html", alert="Please sign in to delete your tips."
         )
@@ -178,7 +178,7 @@ def like_tip():
     """
     try:
         username = session["username"]
-    except:
+    except Exception:
         return render_template(
             "signin.html", alert="Please sign in to like a tip.")
 
@@ -193,9 +193,18 @@ def like_tip():
             "index.html", alert="You have already liked this tip.") #väliaikainen tykätty jo error
 
     insert_like_sql = "INSERT INTO likes (user_id, tip_id) VALUES (:user_id, :tip_id)"
-    db.session.execute(insert_like_sql, {"user_id": user_id, "tip_id": tip_id})
+    db.session.execute(insert_like_sql, 
+    {
+        "user_id": user_id, 
+        "tip_id": tip_id
+    })
+
     update_tips_sql = "UPDATE tips SET likes = likes + 1 WHERE id=:tip_id"
-    db.session.execute(update_tips_sql, {"tip_id": tip_id})
+    db.session.execute(update_tips_sql, 
+    {
+        "tip_id": tip_id
+    })
+
     db.session.commit()
     return redirect("/")
 
