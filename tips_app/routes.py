@@ -24,11 +24,17 @@ def index():
         liked_tips = [tip.tip_id for tip in liked_tips_result]
     except:
         liked_tips = None
-
+    
+    tip_likes = {}    
+    for t in all_tips:
+        tip_likes_result = db.session.query(Likes).filter(Likes.tip_id == t.id).all()
+        tip_likes[t.id] = 0
+        for like in tip_likes_result:
+            tip_likes[t.id] += 1
 
     if request.method == "GET":
         tips = all_tips
-        return render_template("index.html", tips=tips, liked_tips=liked_tips)
+        return render_template("index.html", tips=tips, liked_tips=liked_tips, tip_likes = tip_likes)
 
     if request.method == "POST":
         requested_title = request.form.get("searchtitle")
