@@ -43,7 +43,7 @@ def index():
         if len(requested_title) < 3:
             alert = "Search text must be at least 3 characters long."
             tips = all_tips
-            return render_template("index.html", tips=tips, liked_tips=liked_tips, alert=alert)
+            return render_template("index.html", tips=tips, liked_tips=liked_tips, tip_likes = tip_likes, alert=alert)
 
         sql_search = f"%{requested_title.lower()}%"
         tips = db.session.query(Tips.title, Tips.url, Tips.id).filter(
@@ -53,9 +53,9 @@ def index():
         if len(tips) == 0:
             alert = f"No tip titles contain: {requested_title}"
             tips = all_tips
-            return render_template("index.html", tips=tips, liked_tips=liked_tips, alert=alert)
+            return render_template("index.html", tips=tips, liked_tips=liked_tips, tip_likes = tip_likes, alert=alert)
 
-        return render_template("index.html", tips=tips, liked_tips=liked_tips, searchtitle="")
+        return render_template("index.html", tips=tips, liked_tips=liked_tips, tip_likes = tip_likes, searchtitle="")
 
 
 @site.route("/register", methods=["GET", "POST"])

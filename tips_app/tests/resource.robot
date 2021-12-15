@@ -4,6 +4,7 @@ Library  SeleniumLibrary
 *** Variables ***
 ${SERVER}  127.0.0.1:5000
 ${BROWSER}  headlesschrome
+${DELAY}    0
 ${HOME URL}  http://${SERVER}
 ${REGISTER URL}  http://${SERVER}/register
 ${SIGNIN URL}  http://${SERVER}/signin
@@ -14,6 +15,7 @@ ${USER URL}  http://${SERVER}/user
 Open And Configure Browser
     Open Browser  browser=${BROWSER}
     Maximize Browser Window
+    Set Selenium Speed    ${DELAY}
 
 Go To Main Page
     Go To  ${HOME URL}
