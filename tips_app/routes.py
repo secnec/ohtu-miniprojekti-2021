@@ -1,6 +1,5 @@
 """This module implements the routes for the flask app."""
 from flask import Blueprint, redirect, render_template, request, session
-from flask.helpers import flash, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from tips_app.db import db
@@ -15,7 +14,7 @@ def index():
     "This route implements the index page, which shows all of the public tips."
     alert = None
     all_tips = db.session.query(Tips.title, Tips.url, Tips.id).filter_by(visible=True).all()
- 
+
     try:
         username = session["username"]
         user_id = db.session.query(Users).filter(Users.username == username).first().id
@@ -24,8 +23,8 @@ def index():
         liked_tips = [tip.tip_id for tip in liked_tips_result]
     except:
         liked_tips = None
-    
-    tip_likes = {}    
+
+    tip_likes = {}
     tip_likes_result = db.session.query(Tips.id, Tips.likes).order_by(Tips.likes.desc()).all()
     for like in tip_likes_result:
         tip_likes[like[0]] = like[1]
@@ -74,22 +73,38 @@ def register():
 
         if not username or len(username) < 3:
             alert = "Username must be at least 3 characters long."
-            return render_template("register.html", alert=alert, username=username, password=password, password_confirmation=password_confirmation)
+            return render_template("register.html",
+                                    alert=alert,
+                                    username=username,
+                                    password=password,
+                                    password_confirmation=password_confirmation)
 
         if len(password) < 8:
             alert = "Password must be at least 8 characters long."
-            return render_template("register.html", alert=alert, username=username, password=password, password_confirmation=password_confirmation)
+            return render_template("register.html",
+                                    alert=alert,
+                                    username=username,
+                                    password=password,
+                                    password_confirmation=password_confirmation)
 
         if password != password_confirmation:
             alert = "Password and confirmation do not match."
-            return render_template("register.html", alert=alert, username=username, password=password, password_confirmation=password_confirmation)
+            return render_template("register.html",
+                                    alert=alert,
+                                    username=username,
+                                    password=password,
+                                    password_confirmation=password_confirmation)
 
         user = (
             db.session.query(Users.username).filter(Users.username == username).first()
         )
         if user:
             alert = "Username is already taken."
-            return render_template("register.html", alert=alert, username=username, password=password, password_confirmation=password_confirmation)
+            return render_template("register.html",
+                                    alert=alert,
+                                    username=username,
+                                    password=password,
+                                    password_confirmation=password_confirmation)
 
         new_user = Users(
             username=username,
