@@ -63,13 +63,21 @@ class AppTest(unittest.TestCase):
             user_count = self.db.session.query(Users.username).count()
 
         self.assertEqual(user_count, 3)
-    
+
+        self.assertIn(b"name=\"username\" value=\"asder\"", res.data)
+        self.assertIn(b"name=\"password\" value=\"password\"", res.data)
+        self.assertIn(b"name=\"password_confirmation\" value=\"password\"", res.data)
+
     def test_register_with_invalid_credentials_works(self):
         res = self.register("usernami", "PAS", "PAS")
         with self.app.app_context():
             user_count = self.db.session.query(Users.username).count()
         self.assertIn(b"Registration page", res.data)
         self.assertEqual(user_count, 2)
+
+        self.assertIn(b"name=\"username\" value=\"usernami\"", res.data)
+        self.assertIn(b"name=\"password\" value=\"PAS\"", res.data)
+        self.assertIn(b"name=\"password_confirmation\" value=\"PAS\"", res.data)
 
         res = self.register("us", "password1234", "password1234")
         with self.app.app_context():
@@ -94,16 +102,18 @@ class AppTest(unittest.TestCase):
     def test_index_search_too_short(self):
         response = self.input_search_word("a")
         self.assertIn(b"Search text must be at least 3 characters long.", response.data)
+        self.assertIn(b"name=\"searchtitle\" value=\"a\"", response.data)
     
     def test_index_search_fails(self):
         response = self.input_search_word("thisnotindatabase")
         self.assertIn(b"No tip titles contain: thisnotindatabase", response.data)
+        self.assertIn(b"name=\"searchtitle\" value=\"thisnotindatabase\"", response.data)
 
-#    def test_index_search_succeeds(self):
-#        self.add_tip_as_testuser("helsingin sanomat", "https://www.hs.fi/")
-#        self.add_tip_as_testuser("ilta-sanomat", "https://www.is.fi/")
-#        response = self.input_search_word("hel")
-#        self.assertIn(b"helsingin sanomat", response.data)
+    def test_index_search_succeeds(self):
+        self.add_tip_as_testuser("helsingin sanomat", "https://www.hs.fi/")
+        self.add_tip_as_testuser("ilta-sanomat", "https://www.is.fi/")
+        response = self.input_search_word("hel")
+        self.assertIn(b"helsingin sanomat", response.data)
 
     def test_signin_redirects_to_user_page_with_valid_credentials(self):
         signin = self.signin("testuser", "pass1234")
@@ -112,10 +122,14 @@ class AppTest(unittest.TestCase):
     def test_signin_results_in_error_message_with_invalid_username(self):
         signin = self.signin("", "875878687")
         self.assertIn(b"Invalid username or password", signin.data)
+        self.assertIn(b"name=\"username\" value=\"\"", signin.data)
+        self.assertIn(b"name=\"password\" value=\"875878687\"", signin.data)
 
     def test_signin_results_in_error_message_with_incorrect_username(self):
         signin = self.signin("testuser", "875878687")
         self.assertIn(b"Invalid username or password", signin.data)
+        self.assertIn(b"name=\"username\" value=\"testuser\"", signin.data)
+        self.assertIn(b"name=\"password\" value=\"875878687\"", signin.data)
 
     def test_sign_in_link_exists_when_user_is_not_signed_in(self):
         index = self.client.get("/")
@@ -191,11 +205,15 @@ class AppTest(unittest.TestCase):
     def test_tip_without_title_fails(self):
         add = self.add_tip_as_testuser("hi", "https://fi.wikipedia.org/wiki/Himalaja")
         self.assertIn(b"Tip must have an URL and a title at least 3 characters long.", add.data)
+        self.assertIn(b"name=\"title\" value=\"hi\"", add.data)
+        self.assertIn(b"name=\"url\" value=\"https://fi.wikipedia.org/wiki/Himalaja\"", add.data)
 
     def test_tip_without_url_fails(self):
         add = self.add_tip_as_testuser("himalaja", " ")
         self.assertIn(b"Tip must have an URL and a title at least 3 characters long.", add.data)
-    
+        self.assertIn(b"name=\"title\" value=\"himalaja\"", add.data)
+        self.assertIn(b"name=\"url\" value=\" \"", add.data)
+
     def logout(self):
         return self.client.get("/logout", follow_redirects = True)
 
