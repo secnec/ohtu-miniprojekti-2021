@@ -31,7 +31,7 @@ def create_app(database_uri=None, secret_key=None):
 
     db.init_app(app)
 
-    # pylint: disable=import-outside-toplevel  
+    # pylint: disable=import-outside-toplevel
     from tips_app.routes import site
 
     app.register_blueprint(site)
