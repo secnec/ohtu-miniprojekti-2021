@@ -23,21 +23,25 @@ Add Tip Without URL
     Sign In And Go To Add Tip Page
     Add Tip With Credentials  emptyurl  ${EMPTY}
     Adding Should Fail With  Tip must have an URL and a title at least 3 characters long.
+    Tip Input Data Should Remain On Page  emptyurl  ${EMPTY}
     Log Out
 
 Add Tip With Invalid Title
     Sign In And Go To Add Tip Page
     Add Tip With Credentials  sa  https://en.wikipedia.org/wiki/Sahara
     Adding Should Fail With  Tip must have an URL and a title at least 3 characters long.
+    Tip Input Data Should Remain On Page  sa  https://en.wikipedia.org/wiki/Sahara
     Log Out
 
 Make Too Short Search
-    Search With Credentials  a
+    Search With Credentials  ?#
     Search Should Fail With   Search text must be at least 3 characters long.
+    Search Input Data Should Remain  ?#
 
 Make Unsuccessful Search
     Search With Credentials  thisdoesnotexist
     Search Should Fail With   No tip titles contain: thisdoesnotexist
+    Search Input Data Should Remain  thisdoesnotexist
 
 Added Tips Appear On Home Page
     Sign In And Go To Add Tip Page
@@ -92,3 +96,12 @@ Sign In And Go To Add Tip Page
     Go To Signin Page
     Sign In With Credentials  username  password1
     Go To Add Tips Page
+
+Search Input Data Should Remain
+    [Arguments]  ${searchtitle}
+    Input Text  searchtitle  ${searchtitle}
+
+Tip Input Data Should Remain On Page
+    [Arguments]  ${title}  ${url}
+    Input Text  title  ${title}
+    Input Text  url  ${url}

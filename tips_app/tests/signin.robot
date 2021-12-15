@@ -17,12 +17,14 @@ Sign In With Invalid Username
     Go To Signin Page
     Sign In With Credentials  a  password
     Sign In Should Fail With  Invalid username or password
+    Sign In Input Data Should Remain On Page  a  password
 
 Sign In With Incorrect Password
     Go To Signin Page
     Sign In With Credentials  testertester  wrongpassword
     Sign In Should Fail With  Invalid username or password
-    
+    Sign In Input Data Should Remain On Page  testertester  wrongpassword
+
 *** Keywords ***
 
 Register With Testing Credentials
@@ -40,3 +42,8 @@ Sign In Should Fail With
     [Arguments]  ${error}
     Page Should Contain  ${error}
     Signin Page Should Be Open
+
+Sign In Input Data Should Remain On Page
+    [Arguments]  ${username}  ${password}
+    Input Text  username  ${username}
+    Input Text  password  ${password}
