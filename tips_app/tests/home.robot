@@ -129,6 +129,15 @@ Unliking Reduces Like Count And Changes Button
     Page Should Not Contain  1 likes
     Page Should Not Contain  Unlike
 
+Deleted Tips Do Not Appear On Home Page
+    Sign In And Go To Add Tip Page
+    Add Tip With Credentials  sahara  https://en.wikipedia.org/wiki/Sahara
+    Go To User Page
+    Delete Tip
+    Alert Should Be Present
+    Go To User Page
+    Page Should Not Contain  sahara
+
 *** Keywords ***
 Search With Credentials
     [Arguments]  ${searchtitle}

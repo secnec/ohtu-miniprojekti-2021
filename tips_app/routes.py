@@ -49,6 +49,13 @@ def index():
             Tips.title.like(sql_search), Tips.visible == True
         ).all()
 
+        for close_title in closest_titles:
+            sql_search = f"%{close_title}%"
+            new_tips = db.session.query(Tips.title, Tips.url, Tips.id).filter(
+                Tips.title.like(sql_search), Tips.visible == True
+            ).all()
+            tips = tips + list(set(new_tips) - set(tips))
+
         if len(tips) == 0:
             alert = f"No tip titles contain: {requested_title}"
             tips = all_tips
