@@ -27,6 +27,28 @@ Deleted Tips Do Not Appear On Home Page
     Go To Main Page
     Log Out
 
+Deleted Tips Do Not Appear On User Page
+    Sign In And Go To Add Tip Page
+    Add Tip With Credentials  pahara  https://en.wikipedia.org/wiki/Sahara
+    Go To User Page
+    Delete Tip
+    Alert Should Be Present
+    Go To User Page
+    Page Should Not Contain  pahara
+    Go To Main Page
+    Log Out
+
+Tip Is Not Deleted If Action Canceled
+    Sign In And Go To Add Tip Page
+    Add Tip With Credentials  pahara  https://en.wikipedia.org/wiki/Sahara
+    Go To User Page
+    Delete Tip
+    Handle Alert  action = DISMISS 
+    Go To Home Page
+    Page Should Contain  pahara
+    Go To Main Page
+    Log Out
+
 Add Tip Without Sign In
     Go To Add Tips Page
     Page Should Contain  Please sign in to add a tip.
