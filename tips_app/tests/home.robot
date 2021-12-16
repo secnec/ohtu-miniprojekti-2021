@@ -66,8 +66,8 @@ Deleted Tips Do Not Appear On Home Page
     Go To User Page
     Delete Tip
     Alert Should Be Present
-    Page Should Not Contain  sahara
     Go To Main Page
+    Page Should Not Contain  sahara
     Log Out
 
 
