@@ -43,7 +43,7 @@ Tip Is Not Deleted If Action Canceled
     Add Tip With Credentials  pahara  https://en.wikipedia.org/wiki/Sahara
     Go To User Page
     Delete Tip
-    Handle Alert DISMISS 
+    Handle Alert    action=DISMISS 
     Go To Home Page
     Page Should Contain  pahara
     Go To Main Page
