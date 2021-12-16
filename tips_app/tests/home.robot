@@ -19,6 +19,12 @@ Add Tip Without Sign In
     Go To Add Tips Page
     Page Should Contain  Please sign in to add a tip.
 
+Add Valid Tip Redirects To Own Page
+    Sign In And Go To Add Tip Page
+    Add Tip With Credentials  amazon  https://en.wikipedia.org/wiki/Amazon_rainforest
+    Page Should Contain  Your own tips
+    Log Out
+
 Add Tip Without URL
     Sign In And Go To Add Tip Page
     Add Tip With Credentials  emptyurl  ${EMPTY}
