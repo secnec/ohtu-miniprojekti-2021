@@ -1,3 +1,3 @@
 *** Keywords ***
 Delete Tip
-    Click Button Delete
+    Click Button  Delete
