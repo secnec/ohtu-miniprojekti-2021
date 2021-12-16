@@ -82,6 +82,53 @@ Like Button Visible When Signed In
     Click Link  Index
     Page Should Contain  Like
 
+Unliking Reduces Like Count And Changes Button
+    Go To Main Page
+
+    Like Button For Specific Tip Should Be  amazon  Like
+    Like Button For Specific Tip Should Be  sahara  Like
+
+    Click Like Button On Tip  amazon
+    Click Like Button On Tip  sahara
+
+    Like Button For Specific Tip Should Be  amazon  Unlike
+    Like Button For Specific Tip Should Be  sahara  Unlike
+
+    Log Out
+    Go To Register Page
+    Register With Credentials  liker  liker12345  liker12345
+    Go To Signin Page
+    Sign In With Credentials  liker  liker12345
+    Go To Main Page
+
+    Click Like Button On Tip  amazon
+
+    Log Out
+    Go To Signin Page
+    Sign In With Credentials  username  password1
+    Go To Main Page
+
+    Page Should Contain  2 likes
+    Page Should Contain  1 likes
+
+    Click Like Button On Tip  sahara
+    Page Should Not Contain  1 likes
+
+    Click Like Button On Tip  amazon
+    Page Should Not Contain  2 likes
+    Page Should Contain  1 likes
+
+    Log Out
+    Go To Signin Page
+    Sign In With Credentials  liker  liker12345
+    Go To Main Page
+
+    Click Like Button On Tip  amazon
+    Like Button For Specific Tip Should Be  amazon  Like
+    Like Button For Specific Tip Should Be  sahara  Like
+    Page Should Not Contain  1 likes
+    Page Should Not Contain  Unlike
+
 *** Keywords ***
 Search With Credentials
     [Arguments]  ${searchtitle}
@@ -111,3 +158,11 @@ Tip Input Data Should Remain On Page
     [Arguments]  ${title}  ${url}
     Input Text  title  ${title}
     Input Text  url  ${url}
+
+Click Like Button On Tip
+    [Arguments]  ${tip_title}
+    Click Button  xpath://a[text()[contains(.,"${tip_title}")]]/following-sibling::button[1]
+
+Like Button For Specific Tip Should Be
+    [Arguments]  ${tip_title} ${button_text}
+    Page Should Contain  //a[text()[contains(.,"${tip_title}")]]/following-sibling::button[contains(text(),"${button_text}")]
