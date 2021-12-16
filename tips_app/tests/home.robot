@@ -136,7 +136,6 @@ Deleted Tips Do Not Appear On Home Page
     Add Tip With Credentials  sahara  https://en.wikipedia.org/wiki/Sahara
     Go To User Page
     Delete Tip
-    Alert Should Be Present
     Go To User Page
     Page Should Not Contain  sahara
 
