@@ -350,3 +350,20 @@ class AppTest(unittest.TestCase):
         self.assertIsNotNone(tippy_like)
         self.assertEqual(tippy_count, 1)
         self.assertEqual(top_count, 0)
+
+
+    def test_likes_show_up_right(self):
+        self.add_tip_as_testuser("tip1", "https://www.wikipedia.org")
+        self.like_tip("testuser", 1)
+        self.add_tip_as_testuser("tip2", "https://www.wikipedia.org")
+        self.like_tip("testuser", 2)
+        self.logout()
+
+        self.signin("testuser2", "pass4321")
+        self.like_tip("testuser2", 2)
+        self.logout()
+        
+        index = self.client.get("/").data
+
+        self.assertIn(b"2 likes", index)
+        self.assertIn(b"1 likes", index)
