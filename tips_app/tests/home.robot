@@ -103,6 +103,22 @@ Make Successful Search
     Page Should Contain  sahara
     Log Out
 
+Make Successful Search With Typo 1
+    Sign In And Go To Add Tip Page
+    Add Tip With Credentials  Sahara  https://en.wikipedia.org/wiki/Sahara
+    Go To Main Page
+    Search With Credentials  sahar
+    Page Should Contain  Sahara
+    Log Out
+
+Make Successful Search With Typo 2
+    Sign In And Go To Add Tip Page
+    Add Tip With Credentials  Hesari  https://hs.fi
+    Go To Main Page
+    Search With Credentials  hesarr
+    Page Should Contain  Hesari
+    Log Out
+
 User Page Without Sign In
     Go To User Page
     Page Should Contain  Please sign in to view your own tips.
