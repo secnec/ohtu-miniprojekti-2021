@@ -164,5 +164,5 @@ Click Like Button On Tip
     Click Button  xpath://a[text()[contains(.,"${tip_title}")]]/following-sibling::button[1]
 
 Like Button For Specific Tip Should Be
-    [Arguments]  ${tip_title} ${button_text}
-    Page Should Contain  //a[text()[contains(.,"${tip_title}")]]/following-sibling::button[contains(text(),"${button_text}")]
+    [Arguments]  ${tip_title}  ${button_text}
+    Page Should Contain Button  //a[text()[contains(.,"${tip_title}")]]/following-sibling::button[contains(text(),"${button_text}")]
