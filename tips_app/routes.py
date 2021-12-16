@@ -25,7 +25,7 @@ def index():
         liked_tips = None
 
     tip_likes = {}
-    tip_likes_result = db.session.query(Tips.id, Tips.likes).order_by(Tips.likes.desc()).all()
+    tip_likes_result = db.session.query(Tips.id, Tips.likes).all()
     for like in tip_likes_result:
         tip_likes[like[0]] = like[1]
 

@@ -50,10 +50,12 @@ cd ohtu-miniprojekti-2021
 poetry install
 ```
 
-Before running the application you must set the database URL and the secret key to something unique for Flask. If you do not have a database installed, you can try to use `sqlite://`, which should create a database in-memory. Alternatively you can add a file called `.env`, which contains the necessary variables.
+A database is necessary for the application to work. The database must also contain the tables defined in the schema. They can be added to postgres for example by running the command `psql < schema.sql`.
+
+Before running the application you must set the database URL and the secret key to something unique for Flask. Alternatively you can add a file called `.env`, which contains the necessary variables.
 
 ```bash
-export DATABASE_URL=sqlite://
+export DATABASE_URL=postgresql://example
 export SECRET_KEY=SetMeToSomethingSecret
 ```
 
@@ -86,7 +88,7 @@ To get the coverage report for unit tests, in console or in html, locally
 
 ```bash
 poetry run coverage run --branch -m pytest
-poetry run covereage report -m
+poetry run coverage report -m
 poetry run coverage html
 ```
 

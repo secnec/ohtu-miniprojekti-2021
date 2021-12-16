@@ -367,3 +367,57 @@ class AppTest(unittest.TestCase):
 
         self.assertIn(b"2 likes", index)
         self.assertIn(b"1 likes", index)
+    
+        self.signin("testuser2", "pass4321")
+        self.like_tip("testuser2", 2)
+        self.logout()
+
+        index = self.client.get("/").data
+
+        self.assertNotIn(b"2 likes", index)
+    
+    def test_tips_in_order_by_like_count(self):
+        self.add_tip_as_testuser("tip1", "https://www.wikipedia.org")
+        self.like_tip("testuser", 1)
+        self.add_tip_as_testuser("tip2", "https://www.wikipedia.org")
+        self.like_tip("testuser", 2)
+        self.add_tip_as_testuser("tip3", "https://www.wikipedia.org")
+        self.logout()
+
+        self.signin("testuser2", "pass4321")
+        self.like_tip("testuser2", 2)
+        self.logout()       
+
+        index = self.client.get("/").data
+
+        self.assertEqual(True, index.find(b"tip2") < index.find(b"tip1"))
+
+    def test_tips_order_changes_when_like_count_changes(self):
+        self.add_tip_as_testuser("tip1", "https://www.wikipedia.org")
+        self.like_tip("testuser", 1)
+        self.add_tip_as_testuser("tip2", "https://www.wikipedia.org")
+        self.like_tip("testuser", 2)
+        self.add_tip_as_testuser("tip3", "https://www.wikipedia.org")
+        self.logout()
+
+        self.signin("testuser2", "pass4321")
+        self.like_tip("testuser2", 2)
+        self.logout()       
+
+        index = self.client.get("/").data
+
+        self.assertEqual(True, index.find(b"tip2") < index.find(b"tip1") < index.find(b"tip3"))
+
+        self.signin("testuser", "pass1234")
+        self.like_tip("testuser", 2)
+        self.like_tip("testuser", 3)
+        self.logout() 
+
+        self.signin("testuser2", "pass4321")
+        self.like_tip("testuser2", 2)
+        self.like_tip("testuser2", 3)
+        self.logout()
+
+        index = self.client.get("/").data
+
+        self.assertEqual(True, index.find(b"tip3") < index.find(b"tip1") < index.find(b"tip2"))
