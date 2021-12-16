@@ -2,6 +2,7 @@
 Resource  resource.robot
 Resource  user_resource.robot
 Resource  add_tip_resource.robot
+Resource  delete_tip_resource.robot
 Suite Setup  Open And Configure Browser
 Suite Teardown  Close Browser
 Test Setup  Go To Main Page
@@ -138,6 +139,7 @@ Unliking Reduces Like Count And Changes Button
     Like Button For Specific Tip Should Be  sahara  Like
     Page Should Not Contain  1 likes
     Page Should Not Contain  Unlike
+    Log Out
 
 *** Keywords ***
 Search With Credentials
