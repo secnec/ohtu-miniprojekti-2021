@@ -16,6 +16,17 @@ Click Signin Link
     Click Link  Sign-in
     Signin Page Should Be Open
 
+Deleted Tips Do Not Appear On Home Page
+    Sign In And Go To Add Tip Page
+    Add Tip With Credentials  pahara  https://en.wikipedia.org/wiki/Sahara
+    Go To User Page
+    Delete Tip
+    Alert Should Be Present
+    Go To Main Page
+    Page Should Not Contain  pahara
+    Go To Main Page
+    Log Out
+
 Add Tip Without Sign In
     Go To Add Tips Page
     Page Should Contain  Please sign in to add a tip.
@@ -59,18 +70,6 @@ Added Tips Appear On Home Page
     Title Should Be  Sahara - Wikipedia
     Go To Main Page
     Log Out
-
-Deleted Tips Do Not Appear On Home Page
-    Sign In And Go To Add Tip Page
-    Add Tip With Credentials  sahara  https://en.wikipedia.org/wiki/Sahara
-    Go To User Page
-    Delete Tip
-    Alert Should Be Present
-    Go To Main Page
-    Page Should Not Contain  sahara
-    Go To Main Page
-    Log Out
-
 
 Make Successful Search
     Sign In And Go To Add Tip Page
