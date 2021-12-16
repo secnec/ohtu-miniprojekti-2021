@@ -50,7 +50,7 @@ cd ohtu-miniprojekti-2021
 poetry install
 ```
 
-A database is necessary for the application to work. The database must also contain the tables defined in the schema. They can be added to (for example postgres) by running the command `psql < schema.sql`.
+A database is necessary for the application to work. The database must also contain the tables defined in the schema. They can be added to postgres for example by running the command `psql < schema.sql`.
 
 Before running the application you must set the database URL and the secret key to something unique for Flask. Alternatively you can add a file called `.env`, which contains the necessary variables.
 
