@@ -3,7 +3,7 @@ Library  SeleniumLibrary
 
 *** Variables ***
 ${SERVER}  127.0.0.1:5000
-${BROWSER}  headlesschrome
+${BROWSER}  chrome
 ${DELAY}    0
 ${HOME URL}  http://${SERVER}
 ${REGISTER URL}  http://${SERVER}/register
