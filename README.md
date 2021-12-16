@@ -86,7 +86,7 @@ To get the coverage report for unit tests, in console or in html, locally
 
 ```bash
 poetry run coverage run --branch -m pytest
-poetry run covereage report -m
+poetry run coverage report -m
 poetry run coverage html
 ```
 
