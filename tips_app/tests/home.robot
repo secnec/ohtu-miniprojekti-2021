@@ -59,6 +59,16 @@ Added Tips Appear On Home Page
     Go To Main Page
     Log Out
 
+Deleted Tips Do Not Appear On Home Page
+    Sign In And Go To Add Tip Page
+    Add Tip With Credentials  sahara  https://en.wikipedia.org/wiki/Sahara
+    Go To User Page
+    Delete Tip
+    Page Should Not Contain  sahara
+    Go To Main Page
+    Log Out
+
+
 Make Successful Search
     Sign In And Go To Add Tip Page
     Add Tip With Credentials  sahara  https://en.wikipedia.org/wiki/Sahara
@@ -128,14 +138,6 @@ Unliking Reduces Like Count And Changes Button
     Like Button For Specific Tip Should Be  sahara  Like
     Page Should Not Contain  1 likes
     Page Should Not Contain  Unlike
-
-Deleted Tips Do Not Appear On Home Page
-    Sign In And Go To Add Tip Page
-    Add Tip With Credentials  sahara  https://en.wikipedia.org/wiki/Sahara
-    Go To User Page
-    Delete Tip
-    Go To User Page
-    Page Should Not Contain  sahara
 
 *** Keywords ***
 Search With Credentials
