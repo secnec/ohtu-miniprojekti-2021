@@ -105,7 +105,7 @@ robot tips_app/tests
 
 Please make sure you have the application open at the time of running the robot tests.
 
-The test files (both Robot Framework and Unit tests) can be seen in [tips_app/tests/](tips_app/tests/)
+The test files (both Robot Framework and Unit tests) can be seen in [tips_app/tests/](tips_app/tests/).
 
 The application's continuous integration is run through [GitHub Actions](https://github.com/secnec/ohtu-miniprojekti-2021/actions). Both unit and user story tests are part of GitHub Actions.
 
