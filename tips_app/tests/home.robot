@@ -16,6 +16,11 @@ Click Signin Link
     Click Link  Sign-in
     Signin Page Should Be Open
 
+Click Log Out
+    Sign In And Go To Add Tip Page
+	Log Out
+	Page Should Not Contain  Log out
+
 Add Tip Without Sign In
     Go To Add Tips Page
     Page Should Contain  Please sign in to add a tip.
@@ -180,6 +185,15 @@ Unliking Reduces Like Count And Changes Button
     Like Button For Specific Tip Should Be  sahara  Like
     Page Should Not Contain  1 likes
     Page Should Not Contain  Unlike
+    Log Out
+
+Like Count Visible
+    Sign In And Go To Add Tip Page
+    Add Tip With Credentials  Wiki  https://en.wikipedia.org   
+
+    Go To Main Page
+    Click Like Button On Tip  Wiki
+    Page Should Contain  1 likes
     Log Out
 
 *** Keywords ***
