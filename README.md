@@ -74,7 +74,7 @@ flask run
 
 The application is available in [Heroku](https://library-of-reading-tips.herokuapp.com/).
 
-The application is available as a release on [Github](https://github.com/secnec/ohtu-miniprojekti-2021/releases/tag/0.1.0).
+The application is available as a release on [Github](https://github.com/secnec/ohtu-miniprojekti-2021/releases/tag/0.2.0).
 
 ## Testing
 
