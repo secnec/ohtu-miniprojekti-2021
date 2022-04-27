@@ -110,3 +110,5 @@ The test files (both Robot Framework and Unit tests) can be seen in [tips_app/te
 The application's continuous integration is run through [GitHub Actions](https://github.com/secnec/ohtu-miniprojekti-2021/actions). Both unit and user story tests are part of GitHub Actions.
 
 The application is licensed under [Creative Commons CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/)
+
+
